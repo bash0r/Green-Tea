@@ -1,0 +1,44 @@
+file = [ namespace ] , [ includes ] , [ expression ] ;
+space = ? space ? , { ? space ? } ;
+
+identifier = id begin , { id body } ;
+id begin = ? /[_a-zA-Z‰ˆ¸ƒ÷‹ﬂ]/ ? ;
+id body = id begin | ? /[0-9]/ ? ;
+
+namespace = "namespace " , identifier ;
+includes = include , { space, include } ;
+include = "include " , identifier ;
+
+expression = block | literal | variable exp | condition | function exp ;
+
+literal = int literal | float literal | string literal | bool literal | void literal ;
+void literal = "void" ;
+int literal = digit , { digit } ;
+float literal = int literal , "." , int literal ;
+bool literal = "true" | "false" ;
+string literal = '"' , { string body } , '"' ;
+string body = ? all characters except " and \ ? | "\\" | '\"' ;
+
+variable exp = variable usage | variable init | variable create | variable set | variable export ;
+variable usage = identifier ;
+variable init = "var" , space , identifier ;
+variable create = variable init, set ;
+variable set = identifier , set ;
+variable export = "export" , space , identifier , set ;
+set = [ space ] , "=" , [ space ] , expression ;
+
+condition = if | case
+if = "if" , body , [ else ] ;
+body = space , "(" , [ space ] , expression , [ space ] , ")" , space , expression ;
+else = space , "else" , space , expression ;
+case = "case" , of , { of } , [ else ] ;
+of = space , "of" , body ;
+
+function exp = function creation | function application ;
+function creation = "function" , [ args ] , space , expression ;
+args = [ space ] , "(" , param , { "," , param } , ")" ;
+param = [ space ] , identifier , [ space ] ;
+
+function application = ":" , [ space ] , expression , [ space ] , "(" , [ byvals ] , [ space ] , ")" ;
+byvals = [ space ] , byval , { "," , byval } ;
+byval = [ space ] , expression , [ space ] ;
