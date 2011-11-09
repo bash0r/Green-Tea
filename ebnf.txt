@@ -5,13 +5,13 @@ identifier = id begin , { id body } ;
 id begin = ? /[_a-zA-Z‰ˆ¸ƒ÷‹ﬂ]/ ? ;
 id body = id begin | ? /[0-9]/ ? ;
 
-namespace = "namespace " , identifier ;
+namespace = "namespace" , space , identifier ;
 includes = include , { space, include } ;
 include = "include " , identifier ;
 
 expression = block | literal | variable exp | condition | function exp ;
 
-literal = int literal | float literal | string literal | bool literal | void literal ;
+literal = int literal | float literal | string literal | bool literal | void literal | list literal ;
 void literal = "void" ;
 int literal = digit , { digit } ;
 float literal = int literal , "." , int literal ;
@@ -34,11 +34,14 @@ else = space , "else" , space , expression ;
 case = "case" , of , { of } , [ else ] ;
 of = space , "of" , body ;
 
-function exp = function creation | function application ;
-function creation = "function" , [ args ] , space , expression ;
+function exp = function creation | function application | named application ;
+function creation = "func" , [ args ] , space , expression ;
 args = [ space ] , "(" , param , { "," , param } , ")" ;
 param = [ space ] , identifier , [ space ] ;
 
-function application = ":" , [ space ] , expression , [ space ] , "(" , [ byvals ] , [ space ] , ")" ;
-byvals = [ space ] , byval , { "," , byval } ;
+function application = ":" , [ space ] , expression , [ space ] , "(" , [ byvals ] , ")" ;
+named application = identifier , [ space ] , "(" , [ byvals ] , ")" ;
+byvals = byval , { "," , byval } ;
 byval = [ space ] , expression , [ space ] ;
+
+list literal = "[" , [ byvals ] , "]" ;
