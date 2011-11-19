@@ -9,7 +9,7 @@ namespace = "namespace" , space , identifier ;
 includes = include , { space, include } ;
 include = "include " , identifier ;
 
-expression = block | literal | variable exp | condition | function exp | binary operator ;
+expression = block | literal | variable exp | condition | function exp | binary operator | select ;
 
 binary operator = expression , [ space ] , operator char , [ space ] , expression ;
 operator char = "+" | "-" | "*" | "/" | "^" ;
@@ -48,3 +48,7 @@ byvals = byval , { "," , byval } ;
 byval = [ space ] , expression , [ space ] ;
 
 list literal = "[" , [ byvals ] , "]" ;
+
+select = from , { from | where } , "select" , space , expression ;
+from = "from" , space , identifier , space , "in" , space , expression , space ;
+where = "where" , space , expression , space ;
