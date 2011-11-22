@@ -2,7 +2,7 @@
 
 namespace GreenTea
 {
-    public sealed class ExpressionList : GTList
+    public sealed class ExpressionList : Value, GTList
     {
         public IExpression Expression { get; private set; }
         public Scope Container { get; private set; }
@@ -59,6 +59,11 @@ namespace GreenTea
         public GTList InsertAfter(int i, Value v)
         {
             return Cache.InsertAfter(i, v);
+        }
+
+        public override GTType Type
+        {
+            get { return GTType.List; }
         }
 
         public override string ToString()

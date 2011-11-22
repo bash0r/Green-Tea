@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="Expressions\Variable.cs" />
+    <Compile Include="Expressions\Block.cs" />
     <Compile Include="Interfaces.cs" />
     <Compile Include="Modules\Module.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -52,9 +54,7 @@
     <Compile Include="Types\GTVoid.cs" />
     <Compile Include="Types\TreeList.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Expressions\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

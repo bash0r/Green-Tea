@@ -4,7 +4,7 @@
     {
         public Scope Root { get; private set; }
         public Scope Export { get; private set; }
-        internal Scope Static { get; private set; }
+        public Scope Static { get; private set; }
 
         public Module()
         {

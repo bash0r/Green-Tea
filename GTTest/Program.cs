@@ -7,6 +7,8 @@ namespace GTTest
     {
         static void Main(string[] args)
         {
+            Module test = new Module();
+
             GTList l = new TreeList(new GTInt(5), new GTInt(3), new GTString("foobar"), new GTFloat(2.5));
             Console.WriteLine(l);
             Console.WriteLine(l.Add(new GTVoid()));
@@ -31,6 +33,8 @@ namespace GTTest
                 Console.WriteLine(t.InsertBefore(i, new GTInt(0)));
                 Console.WriteLine(t.InsertAfter(i, new GTInt(0)));
             }
+
+            new Declaration("foobar", new ExpressionList(new GTString("foo"), test.Root), ScopeMode.Export).Evaluate(test.Root);
 
             Console.ReadKey(true);
         }
