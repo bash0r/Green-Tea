@@ -49,6 +49,7 @@
     <Compile Include="Types\ExpressionList.cs" />
     <Compile Include="Types\Function.cs" />
     <Compile Include="Types\GTType.cs" />
+    <Compile Include="Types\GTVoid.cs" />
     <Compile Include="Types\TreeList.cs" />
   </ItemGroup>
   <ItemGroup>
