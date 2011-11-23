@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
-namespace GreenTea.Types
+namespace GreenTea
 {
     public class Function : Value
     {
@@ -8,14 +9,11 @@ namespace GreenTea.Types
         public List<int> Parameters { get; private set; }
         public Scope Container { get; private set; }
 
-        public Function(IExpression body, Scope parent, params string[] args)
+        public Function(IExpression body, Scope parent, IEnumerable<string> args)
         {
             this.Body = body;
             this.Container = parent;
-            this.Parameters = new List<int>();
-
-            foreach (var s in args)
-                Parameters.Add(s.GetHashCode());
+            this.Parameters = new List<int>(args.Select(s => s.GetHashCode()));
         }
 
         public override GTType Type

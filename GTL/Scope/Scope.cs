@@ -16,6 +16,12 @@ namespace GreenTea
             this.Variables = new Dictionary<string, Value>();
         }
 
+        public Scope Close()
+        {
+            // TODO: return a new closure of this scope
+            return this;
+        }
+
         public void Add(string name, Value val, ScopeMode mode = ScopeMode.Local)
         {
             switch (mode)

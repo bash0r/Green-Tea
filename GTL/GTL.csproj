@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="Expressions\Function.cs" />
     <Compile Include="Expressions\Variable.cs" />
     <Compile Include="Expressions\Block.cs" />
     <Compile Include="Interfaces.cs" />
