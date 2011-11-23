@@ -1,4 +1,4 @@
-file = [ namespace ] , [ includes ] , [ expression ] ;
+module = [ namespace ] , [ includes ] , [ expression ] ;
 space = ? space ? , { ? space ? } ;
 
 identifier = id begin , { id body } ;
@@ -7,7 +7,7 @@ id body = id begin | ? /[0-9]/ ? ;
 
 namespace = "namespace" , space , identifier ;
 includes = include , { space, include } ;
-include = "include " , identifier ;
+include = "include" , space , identifier ;
 
 expression = block | literal | variable exp | condition | function exp | binary operator | select ;
 block = empty block | filled block ;

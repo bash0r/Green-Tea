@@ -7,7 +7,7 @@ namespace GTTest
     {
         static void Main(string[] args)
         {
-            Module test = new Module();
+            Module test = new Module("main", null, GTVoid.Void);
 
             Value l = new Tree(new GTInt(5), new GTInt(3), new GTString("foobar"), new GTFloat(2.5));
             Console.WriteLine(l);
