@@ -16,10 +16,17 @@ namespace GreenTea
             this.Variables = new Dictionary<string, Value>();
         }
 
+        public Scope(Scope parent) : this(parent, parent == null ? null : parent.Namespace) { }
+        public Scope() : this(null, null) { }
+
         public Scope Close()
         {
             // create a new child closure
             Scope s = new Scope(null, Namespace);
+
+            // Duplicate all variables
+            foreach (var v in Variables)
+                s.Add(v.Key, v.Value);
 
             if (Parent != null)
                 s.Parent = Parent.Close(); // recurse upwards
@@ -62,7 +69,11 @@ namespace GreenTea
                 return Parent.TryFind(name, out ret, newval);
 
             // reached root, try static
-            return Namespace.Static.TryFind(name, out ret, newval);
+            if (Namespace != null)
+                return Namespace.Static.TryFind(name, out ret, newval);
+
+            ret = GTVoid.Void;
+            return false;
         }
 
         public Value Find(string name, Value newval = null)

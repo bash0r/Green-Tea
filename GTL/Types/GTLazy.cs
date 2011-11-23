@@ -68,7 +68,7 @@ namespace GreenTea
 
         public override string ToString()
         {
-            return '&' + Body.ToString();
+            return '&' + Cache.ToString();
         }
         #endregion
     }

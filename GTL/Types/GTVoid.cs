@@ -25,6 +25,11 @@ namespace GreenTea
             return new GTTree(v);
         }
 
+        public override Value AddRange(Value v)
+        {
+            return new GTTree().AddRange(v);
+        }
+
         public override IEnumerable<Value> Enumerate()
         {
             return new GTTree().Enumerate();

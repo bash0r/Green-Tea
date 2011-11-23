@@ -102,6 +102,14 @@ namespace GreenTea
                 return new GTTree(Value, Left, Right.Add(v));
         }
 
+        public override Value AddRange(Value v)
+        {
+            if (Right == null)
+                return new GTTree(Value, Left, v);
+            else
+                return new GTTree(Value, Left, Right.AddRange(v));
+        }
+
         public override Value Set(int i, Value v)
         {
             if (i < LeftCount)
@@ -199,15 +207,15 @@ namespace GreenTea
 
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder("[");
+            StringBuilder sb = new StringBuilder();
 
             foreach (var v in this.Enumerate())
-                sb.AppendFormat("{0} ", v.ToString());
+                sb.AppendFormat(" {0}", v.ToString());
 
-            sb.Remove(sb.Length - 1, 1);
-            sb.Append("]");
+            if (sb.Length > 0)
+                sb.Remove(0, 1);
 
-            return sb.ToString();
+            return String.Format("[{0}]", sb);
         }
     }
 }

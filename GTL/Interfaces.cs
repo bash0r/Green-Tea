@@ -35,6 +35,11 @@ namespace GreenTea
             return new GTTree(this).Add(v);
         }
 
+        public virtual Value AddRange(Value v)
+        {
+            return new GTTree(this).AddRange(v);
+        }
+
         public virtual Value AddExp(IExpression exp, Scope scope) // AddLazy
         {
             return new GTTree(this, null, new GTLazy(exp, scope));

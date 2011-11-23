@@ -26,10 +26,13 @@ namespace GreenTea
         static Parser()
         {
             AddExpression(Literal);
+            AddExpression(Lazy);
             AddExpression(Block);
             AddExpression(Conditional);
+            AddExpression(Select);
             AddExpression(FunctionExp);
             AddExpression(VariableExp);
+            AddExpression(ListExp);
         }
     }
 }

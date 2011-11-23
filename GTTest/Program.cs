@@ -9,8 +9,12 @@ namespace GTTest
         {
             var v = Parser.ParseString(@"
 
-case of true 1
-case of true 2
+var foo = [[1, 2], [3, 4], &dfgdfgh]
+
+var expr = &from x in foo
+            from y in foo
+            where false
+            select x
 
 ");
 
