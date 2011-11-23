@@ -1,4 +1,5 @@
 ﻿using Sprache;
+using System;
 
 namespace GreenTea
 {
@@ -10,7 +11,7 @@ namespace GreenTea
             from word in Parse.String("if")
             from body in Body
             from alt in Else.Or(Parse.Return(GTVoid.Void))
-            select new IfElse(body.First, body.Second, alt),
+            select new IfElse(body.Item1, body.Item2, alt),
 
         Else =
             from s1 in Parse.WhiteSpace.AtLeastOnce()
@@ -19,27 +20,29 @@ namespace GreenTea
             from ex in Expression
             select ex,
 
-        Conditional =
-            IfElse;
+        CaseOf =
+            from word in Parse.String("case")
+            from opts in Of.AtLeastOnce()
+            from alt in Else.Or(Parse.Return(GTVoid.Void))
+            select new CaseOf(opts, alt),
 
-        private static Parser<ExpPair>
+        Conditional =
+            IfElse.Or(CaseOf);
+
+
+        private static Parser<Tuple<IExpression, IExpression>>
 
         Body =
             from s1 in Parse.WhiteSpace.AtLeastOnce()
             from e1 in Expression
             from s2 in Parse.WhiteSpace.AtLeastOnce()
             from e2 in Expression
-            select new ExpPair(e1, e2);
+            select new Tuple<IExpression, IExpression>(e1, e2),
 
-        private struct ExpPair
-        {
-            public IExpression First, Second;
-
-            public ExpPair(IExpression fst, IExpression snd)
-            {
-                First = fst;
-                Second = snd;
-            }
-        }
+        Of =
+            from s1 in Parse.WhiteSpace.AtLeastOnce()
+            from word in Parse.String("of")
+            from body in Body
+            select body;
     }
 }

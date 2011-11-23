@@ -9,19 +9,15 @@ namespace GTTest
         {
             var v = Parser.ParseString(@"
 
-var foo = 5
-var bar = 3
+case of true 1
+case of true 2
 
-var test = func(x, y) x
-
-if (true)
-    test(foo, bar)
-else
-    test(bar, foo)
-
-");//.Evaluate(new Scope(null, null));
+");
 
             Console.WriteLine(v);
+            Console.WriteLine();
+            Console.WriteLine(v.Evaluate(new Scope(null, null)));
+
             Console.ReadKey(true);
         }
     }

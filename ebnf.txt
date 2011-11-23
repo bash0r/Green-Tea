@@ -9,11 +9,12 @@ namespace = "namespace" , space , identifier ;
 includes = include , { space, include } ;
 include = "include " , identifier ;
 
-expression = block | literal | variable exp | condition | function exp | binary operator | select ;
+expression = block | literal | variable exp | condition | function exp | binary operator | select | lazy ;
 block = empty block | filled block | single block ;
 empty block = "{" , [ space ] , "}" ;
 filled block = "{" , [ space ] , expression , { space , expression } , [ space ] , "}" ;
 single block = "(" , [ space ] , expression , [ space ] , ")" ;
+lazy = "&" , expression ;
 
 binary operator = expression , [ space ] , operator char , [ space ] , expression ;
 operator char = "+" | "-" | "*" | "/" | "^" ;

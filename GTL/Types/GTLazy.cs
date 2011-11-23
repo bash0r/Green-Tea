@@ -2,7 +2,7 @@
 
 namespace GreenTea
 {
-    public sealed class GTExpression : Value
+    public sealed class GTLazy : Value
     {
         public IExpression Body { get; private set; }
         public Scope Container { get; private set; }
@@ -19,7 +19,7 @@ namespace GreenTea
             }
         }
 
-        public GTExpression(IExpression exp, Scope scope)
+        public GTLazy(IExpression exp, Scope scope)
         {
             this.Body = exp;
             this.Container = scope;
@@ -63,7 +63,7 @@ namespace GreenTea
 
         public override GTType Type
         {
-            get { return GTType.List; }
+            get { return Cache.Type; }
         }
 
         public override string ToString()

@@ -47,6 +47,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Expressions\Conditional.cs" />
     <Compile Include="Expressions\Function.cs" />
+    <Compile Include="Expressions\Lazy.cs" />
     <Compile Include="Expressions\Variable.cs" />
     <Compile Include="Expressions\Block.cs" />
     <Compile Include="Interfaces.cs" />
@@ -63,7 +64,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scope\Scope.cs" />
     <Compile Include="Types\GTAdapters.cs" />
-    <Compile Include="Types\GTExpression.cs" />
+    <Compile Include="Types\GTLazy.cs" />
     <Compile Include="Types\GTFunction.cs" />
     <Compile Include="Types\GTType.cs" />
     <Compile Include="Types\GTVoid.cs" />

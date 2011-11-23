@@ -27,6 +27,9 @@ namespace GreenTea
             foreach (var p in Parameters)
                 args.AppendFormat(", {0}", p);
 
+            if (args.Length == 0)
+                return String.Format("func {0}", Body);
+
             args.Remove(0, 2);
 
             return String.Format("func({0}) {1}", args, Body);
@@ -61,6 +64,9 @@ namespace GreenTea
             // Create evaluation context
             Scope s = new Scope(f.Container, scope.Namespace);
 
+            // Add this() for recursion
+            s.Add("this", f);
+
             for (int i = 0; i < Parameters.Count; i++)
                 s.Add(f.Parameters[i], Parameters[i].Evaluate(scope));
 
@@ -84,7 +90,8 @@ namespace GreenTea
             foreach (var ex in Parameters)
                 args.AppendFormat(", {0}", ex);
 
-            args.Remove(0, 2);
+            if (args.Length > 0)
+                args.Remove(0, 2);
 
             return String.Format(":{0}({1})", Function, args);
         }

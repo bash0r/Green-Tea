@@ -4,7 +4,15 @@ namespace GreenTea
 {
     public static partial class Parser
     {
-        private static Parser<IExpression> Expression = null;
+        private static Parser<IExpression>
+
+        Expression =
+            null,
+
+        Lazy =
+            from lead in Parse.Char('&')
+            from exp in Expression
+            select new Lazy(exp);
 
         public static void AddExpression(Parser<IExpression> p)
         {
