@@ -21,4 +21,49 @@ namespace GreenTea
             return new Function(Body, scope.Close(), Parameters);
         }
     }
+
+    public class FunctionApplication : IExpression
+    {
+        public IExpression Function { get; private set; }
+        public List<IExpression> Parameters { get; private set; }
+
+        public FunctionApplication(IExpression fun, IEnumerable<IExpression> args)
+        {
+            this.Function = fun;
+            this.Parameters = new List<IExpression>(args);
+        }
+
+        public Value Evaluate(Scope scope)
+        {
+            // Evaluate the function
+            Value v = Function.Evaluate(scope);
+
+            if (v.Type != GTType.Function)
+                throw new InvalidOperationException("Cannot call non-function type"); // TODO: list calling / overloads
+
+            Function f = (Function)v;
+
+            // Check the parameter count
+            if (Parameters.Count > f.Parameters.Count)
+                throw new InvalidOperationException("Too many arguments in call to function");
+
+            // Create evaluation context
+            Scope s = new Scope(scope, scope.Namespace);
+
+            for (int i = 0; i < Parameters.Count; i++)
+                s.Add(f.Parameters[i], Parameters[i].Evaluate(scope));
+
+            // All parameters filled
+            if (Parameters.Count == f.Parameters.Count)
+                return f.Evaluate(s);
+
+            // Partial applicaiton: Create a new function
+            var newparams = new List<string>();
+
+            for (int i = f.Parameters.Count - Parameters.Count; i < f.Parameters.Count; i++)
+                newparams.Add(f.Parameters[i]);
+
+            return new Function(f.Body, s, newparams);
+        }
+    }
 }

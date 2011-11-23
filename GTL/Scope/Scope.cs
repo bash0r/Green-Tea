@@ -18,8 +18,13 @@ namespace GreenTea
 
         public Scope Close()
         {
-            // TODO: return a new closure of this scope
-            return this;
+            // create a new child closure
+            Scope s = new Scope(null, Namespace);
+
+            if (Parent != null)
+                s.Parent = Parent.Close(); // recurse upwards
+
+            return s;
         }
 
         public void Add(string name, Value val, ScopeMode mode = ScopeMode.Local)
