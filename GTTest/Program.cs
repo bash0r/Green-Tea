@@ -15,11 +15,11 @@ var bar = 3
 var test = func(x, y) x
 
 if (true)
-    :test(foo, bar)
+    test(foo, bar)
 else
-    :test(bar, foo)
+    test(bar, foo)
 
-").Evaluate(new Scope(null, null));
+");//.Evaluate(new Scope(null, null));
 
             Console.WriteLine(v);
             Console.ReadKey(true);

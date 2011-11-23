@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using Sprache;
 
 namespace GreenTea
@@ -28,7 +25,7 @@ namespace GreenTea
 
         private static readonly string[] Reserved =
         {
-            "func", "var", "export", "static", "if", "else", "case", "from", "where", "select", "in", "namespace", "include", "void", "true", "false"
+            "func", "var", "export", "static", "if", "else", "case", "of", "from", "where", "select", "in", "namespace", "include", "void", "true", "false"
         };
     }
 }

@@ -12,12 +12,10 @@ namespace GreenTea
             this.Value = val;
         }
 
-        #region Implementations
         public override string ToString()
         {
             return Value.ToString();
         }
-        #endregion
     }
 
     public class GTBool : GTAdapter<Boolean>
@@ -28,6 +26,11 @@ namespace GreenTea
         }
 
         public GTBool(Boolean v) : base(v) { }
+
+        public override string ToString()
+        {
+            return base.ToString().ToLower();
+        }
     }
 
     public class GTInt : GTAdapter<Int64>

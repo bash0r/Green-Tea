@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Sprache;
+﻿using Sprache;
 
 namespace GreenTea
 {
@@ -22,10 +18,10 @@ namespace GreenTea
         static Parser()
         {
             AddExpression(Literal);
-            AddExpression(VariableExp);
             AddExpression(Block);
-            AddExpression(FunctionExp);
             AddExpression(Conditional);
+            AddExpression(FunctionExp);
+            AddExpression(VariableExp);
         }
     }
 }

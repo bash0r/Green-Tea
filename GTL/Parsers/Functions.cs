@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Sprache;
 
 namespace GreenTea
@@ -26,9 +24,14 @@ namespace GreenTea
             select exp,
 
         FunctionApplication =
-            from word in Parse.Char(':')
-            from s1 in Parse.WhiteSpace.Many()
-            from fun in Expression
+            from fun in
+                (from word in Parse.Char(':')
+                 from s1 in Parse.WhiteSpace.Many()
+                 from ex in Expression
+                 select ex).Or(
+
+                 from name in Identifier
+                 select new Usage(name))
             from s2 in Parse.WhiteSpace.Many()
             from open in Parse.Char('(')
             from args in ByVals.Or(Parse.Return(new List<IExpression>()))

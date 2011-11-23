@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace GreenTea
 {
@@ -31,6 +28,11 @@ namespace GreenTea
                 return Else.Evaluate(scope);
             else
                 throw new InvalidOperationException("Result of " + Condition.ToString() + " is not a conditional, got " + v.Type);
+        }
+
+        public override string ToString()
+        {
+            return String.Format("if {0}\n{1}\nelse\n{2}", Condition, Body, Else);
         }
     }
 }

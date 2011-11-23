@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace GreenTea
@@ -19,6 +18,18 @@ namespace GreenTea
         public Value Evaluate(Scope scope)
         {
             return new GTFunction(Body, scope.Close(), Parameters);
+        }
+
+        public override string ToString()
+        {
+            StringBuilder args = new StringBuilder();
+
+            foreach (var p in Parameters)
+                args.AppendFormat(", {0}", p);
+
+            args.Remove(0, 2);
+
+            return String.Format("func({0}) {1}", args, Body);
         }
     }
 
@@ -64,6 +75,18 @@ namespace GreenTea
                 newparams.Add(f.Parameters[i]);
 
             return new GTFunction(f.Body, s, newparams);
+        }
+
+        public override string ToString()
+        {
+            StringBuilder args = new StringBuilder();
+
+            foreach (var ex in Parameters)
+                args.AppendFormat(", {0}", ex);
+
+            args.Remove(0, 2);
+
+            return String.Format(":{0}({1})", Function, args);
         }
     }
 }
