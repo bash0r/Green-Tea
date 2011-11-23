@@ -41,7 +41,7 @@ case = "case" , of , { of } , [ else ] ;
 of = space , "of" , body ;
 
 function exp = function creation | function application | named application ;
-function creation = "func" , [ args ] , space , expression ;
+function creation = "func" , ( args  | space ) , expression ;
 args = [ space ] , "(" , param , { "," , param } , ")" ;
 param = [ space ] , identifier , [ space ] ;
 

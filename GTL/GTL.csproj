@@ -52,6 +52,7 @@
     <Compile Include="Modules\Module.cs" />
     <Compile Include="Parsers\Blocks.cs" />
     <Compile Include="Parsers\Expressions.cs" />
+    <Compile Include="Parsers\Functions.cs" />
     <Compile Include="Parsers\Literals.cs" />
     <Compile Include="Parsers\Module.cs" />
     <Compile Include="Parsers\Names.cs" />

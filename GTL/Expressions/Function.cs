@@ -57,7 +57,7 @@ namespace GreenTea
             if (Parameters.Count == f.Parameters.Count)
                 return f.Evaluate(s);
 
-            // Partial applicaiton: Create a new function
+            // Partial application: Create a new function
             var newparams = new List<string>();
 
             for (int i = f.Parameters.Count - Parameters.Count; i < f.Parameters.Count; i++)
