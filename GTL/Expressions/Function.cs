@@ -18,7 +18,7 @@ namespace GreenTea
 
         public Value Evaluate(Scope scope)
         {
-            return new Function(Body, scope.Close(), Parameters);
+            return new GTFunction(Body, scope.Close(), Parameters);
         }
     }
 
@@ -41,7 +41,7 @@ namespace GreenTea
             if (v.Type != GTType.Function)
                 throw new InvalidOperationException("Cannot call non-function type"); // TODO: list calling / overloads
 
-            Function f = (Function)v;
+            GTFunction f = (GTFunction)v;
 
             // Check the parameter count
             if (Parameters.Count > f.Parameters.Count)
@@ -63,7 +63,7 @@ namespace GreenTea
             for (int i = f.Parameters.Count - Parameters.Count; i < f.Parameters.Count; i++)
                 newparams.Add(f.Parameters[i]);
 
-            return new Function(f.Body, s, newparams);
+            return new GTFunction(f.Body, s, newparams);
         }
     }
 }

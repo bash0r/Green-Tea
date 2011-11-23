@@ -2,7 +2,7 @@
 
 namespace GreenTea
 {
-    public sealed class Expression : Value
+    public sealed class GTExpression : Value
     {
         public IExpression Body { get; private set; }
         public Scope Container { get; private set; }
@@ -19,7 +19,7 @@ namespace GreenTea
             }
         }
 
-        public Expression(IExpression exp, Scope scope)
+        public GTExpression(IExpression exp, Scope scope)
         {
             this.Body = exp;
             this.Container = scope;
@@ -68,7 +68,7 @@ namespace GreenTea
 
         public override string ToString()
         {
-            return '&' + Cache.ToString();
+            return '&' + Body.ToString();
         }
         #endregion
     }

@@ -1,4 +1,4 @@
-module = [ namespace ] , [ includes ] , [ expression ] ;
+file = [ namespace ] , [ includes ] , [ expression ] ;
 space = ? space ? , { ? space ? } ;
 
 identifier = id begin , { id body } ;
@@ -7,12 +7,13 @@ id body = id begin | ? /[0-9]/ ? ;
 
 namespace = "namespace" , space , identifier ;
 includes = include , { space, include } ;
-include = "include" , space , identifier ;
+include = "include " , identifier ;
 
-expression = block | literal | lazy exp | variable exp | condition | function exp | binary operator | select ;
-block = empty block | filled block ;
+expression = block | literal | variable exp | condition | function exp | binary operator | select ;
+block = empty block | filled block | single block ;
 empty block = "{" , [ space ] , "}" ;
 filled block = "{" , [ space ] , expression , { space , expression } , [ space ] , "}" ;
+single block = "(" , [ space ] , expression , [ space ] , ")" ;
 
 binary operator = expression , [ space ] , operator char , [ space ] , expression ;
 operator char = "+" | "-" | "*" | "/" | "^" ;
@@ -35,13 +36,13 @@ set = [ space ] , "=" , [ space ] , expression ;
 
 condition = if | case
 if = "if" , body , [ else ] ;
-body = space , "(" , [ space ] , expression , [ space ] , ")" , space , expression ;
 else = space , "else" , space , expression ;
 case = "case" , of , { of } , [ else ] ;
 of = space , "of" , body ;
+body = space , expression , space , expression ;
 
 function exp = function creation | function application | named application ;
-function creation = "func" , ( args  | space ) , expression ;
+function creation = "func" , [ args ] , space , expression ;
 args = [ space ] , "(" , param , { "," , param } , ")" ;
 param = [ space ] , identifier , [ space ] ;
 
@@ -55,5 +56,3 @@ list literal = "[" , [ byvals ] , "]" ;
 select = from , { from | where } , "select" , space , expression ;
 from = "from" , space , identifier , space , "in" , space , expression , space ;
 where = "where" , space , expression , space ;
-
-lazy exp = "&" , [ space ] , expression ;

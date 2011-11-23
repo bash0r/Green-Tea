@@ -2,13 +2,13 @@
 
 namespace GreenTea
 {
-    public class Function : Value
+    public class GTFunction : Value
     {
         public IExpression Body { get; private set; }
         public List<string> Parameters { get; private set; }
         public Scope Container { get; private set; }
 
-        public Function(IExpression body, Scope parent, IEnumerable<string> args)
+        public GTFunction(IExpression body, Scope parent, IEnumerable<string> args)
         {
             this.Body = body;
             this.Container = parent;

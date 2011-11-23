@@ -18,17 +18,17 @@ namespace GreenTea
 
         public virtual Value Add(Value v)
         {
-            return new Tree(this).Add(v);
+            return new GTTree(this).Add(v);
         }
 
         public virtual Value AddExp(IExpression exp, Scope scope) // AddLazy
         {
-            return new Tree(this, null, new Expression(exp, scope));
+            return new GTTree(this, null, new GTExpression(exp, scope));
         }
 
         public virtual IEnumerable<Value> Enumerate()
         {
-            return new Tree(this).Enumerate();
+            return new GTTree(this).Enumerate();
         }
 
         public virtual Value this[int i]
@@ -38,17 +38,17 @@ namespace GreenTea
 
         public virtual Value Set(int i, Value val)
         {
-            return new Tree(this).Set(i, val);
+            return new GTTree(this).Set(i, val);
         }
 
         public virtual Value InsertBefore(int i, Value val)
         {
-            return new Tree(this).InsertBefore(i, val);
+            return new GTTree(this).InsertBefore(i, val);
         }
 
         public virtual Value InsertAfter(int i, Value val)
         {
-            return new Tree(this).InsertAfter(i, val);
+            return new GTTree(this).InsertAfter(i, val);
         }
 
         public Value Evaluate(Scope scope)

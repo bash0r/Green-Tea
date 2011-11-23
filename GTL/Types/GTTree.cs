@@ -5,34 +5,34 @@ using System.Text;
 
 namespace GreenTea
 {
-    public sealed class Tree : Value
+    public sealed class GTTree : Value
     {
         private Value Value;
         private Value Left;
         private Value Right;
 
         #region Constructors
-        public Tree() { }
+        public GTTree() { }
 
-        public Tree(Value val) : this()
+        public GTTree(Value val) : this()
         {
             this.Value = val;
             this.ThisCache = 1;
         }
 
-        public Tree(Value val, Value left, Value right)
+        public GTTree(Value val, Value left, Value right)
         {
             this.Value = val;
             this.Left = left;
             this.Right = right;
         }
 
-        public Tree(IEnumerable<Value> list) : this()
+        public GTTree(IEnumerable<Value> list) : this()
         {
             var v = this;
             
             foreach (Value ex in list)
-                v = (Tree)v.Add(ex);
+                v = (GTTree)v.Add(ex);
 
             // fake mutator
             this.Value = v.Value;
@@ -40,7 +40,7 @@ namespace GreenTea
             this.Right = v.Right;
         }
 
-        public Tree(params Value[] list) : this((IEnumerable<Value>)list) { }
+        public GTTree(params Value[] list) : this((IEnumerable<Value>)list) { }
         #endregion
 
         #region Caching
@@ -95,66 +95,66 @@ namespace GreenTea
         {
             if (Right == null)
                 if (Value == null)
-                    return new Tree(v, Left, Right);
+                    return new GTTree(v, Left, Right);
                 else
-                    return new Tree(Value, Left, new Tree(v));
+                    return new GTTree(Value, Left, new GTTree(v));
             else
-                return new Tree(Value, Left, Right.Add(v));
+                return new GTTree(Value, Left, Right.Add(v));
         }
 
         public override Value Set(int i, Value v)
         {
             if (i < LeftCount)
-                return new Tree(Value, Left.Set(i, v), Right);
+                return new GTTree(Value, Left.Set(i, v), Right);
 
             else if (i == LeftCount && ThisCount != 0)
-                return new Tree(v, Left, Right);
+                return new GTTree(v, Left, Right);
 
             else if (RightCount == 0)
                 throw new IndexOutOfRangeException();
 
             else
-                return new Tree(Value, Left, Right.Set(i - LeftCount - ThisCount, v));
+                return new GTTree(Value, Left, Right.Set(i - LeftCount - ThisCount, v));
         }
 
         public override Value InsertBefore(int i, Value v)
         {
             if (i < LeftCount)
-                return new Tree(Value, Left.InsertBefore(i, v), Right);
+                return new GTTree(Value, Left.InsertBefore(i, v), Right);
 
             else if (i == LeftCount && ThisCount != 0)
             {
                 if (Left == null)
-                    return new Tree(Value, new Tree(v), Right);
+                    return new GTTree(Value, new GTTree(v), Right);
                 else
-                    return new Tree(Value, Left.InsertAfter(i, v), Right);
+                    return new GTTree(Value, Left.InsertAfter(i, v), Right);
             }
 
             else if (RightCount == 0)
                 throw new IndexOutOfRangeException();
 
             else
-                return new Tree(Value, Left, Right.InsertBefore(i - LeftCount - ThisCount, v));
+                return new GTTree(Value, Left, Right.InsertBefore(i - LeftCount - ThisCount, v));
         }
 
         public override Value InsertAfter(int i, Value v)
         {
             if (i < LeftCount)
-                return new Tree(Value, Left.InsertAfter(i, v), Right);
+                return new GTTree(Value, Left.InsertAfter(i, v), Right);
 
             else if (i == LeftCount && ThisCount != 0)
             {
                 if (Right == null)
-                    return new Tree(Value, Left, new Tree(v));
+                    return new GTTree(Value, Left, new GTTree(v));
                 else
-                    return new Tree(Value, Left, Right.InsertBefore(i, v));
+                    return new GTTree(Value, Left, Right.InsertBefore(i, v));
             }
 
             else if (RightCount == 0)
                 throw new IndexOutOfRangeException();
 
             else
-                return new Tree(Value, Left, Right.InsertAfter(i - LeftCount - ThisCount, v));
+                return new GTTree(Value, Left, Right.InsertAfter(i - LeftCount - ThisCount, v));
         }
         #endregion
 

@@ -7,8 +7,21 @@ namespace GTTest
     {
         static void Main(string[] args)
         {
-            var v = Parser.ParseString("::func(x, y) x(5)(3)").Evaluate(new Scope(null, null));
+            var v = Parser.ParseString(@"
 
+var foo = 5
+var bar = 3
+
+var test = func(x, y) x
+
+if (true)
+    :test(foo, bar)
+else
+    :test(bar, foo)
+
+").Evaluate(new Scope(null, null));
+
+            Console.WriteLine(v);
             Console.ReadKey(true);
         }
     }

@@ -25,6 +25,7 @@ namespace GreenTea
             AddExpression(VariableExp);
             AddExpression(Block);
             AddExpression(FunctionExp);
+            AddExpression(Conditional);
         }
     }
 }

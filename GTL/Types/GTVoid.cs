@@ -22,12 +22,12 @@ namespace GreenTea
 
         public override Value Add(Value v)
         {
-            return new Tree(v);
+            return new GTTree(v);
         }
 
         public override IEnumerable<Value> Enumerate()
         {
-            return new Tree().Enumerate();
+            return new GTTree().Enumerate();
         }
 
         public override Value this[int i]
