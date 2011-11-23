@@ -25,6 +25,11 @@ namespace GreenTea
 
             return v;
         }
+
+        public override string ToString()
+        {
+            return (Mode == ScopeMode.Local ? "var" : Mode.ToString().ToLower()) + " " + Name + (Body == null ? "" : " = " + Body.ToString());
+        }
     }
 
     public class Assignment : IExpression
@@ -42,6 +47,11 @@ namespace GreenTea
         {
             return scope.Find(Name, Body.Evaluate(scope));
         }
+
+        public override string ToString()
+        {
+            return Name + " = " + Body.ToString();
+        }
     }
 
     public class Usage : IExpression
@@ -56,6 +66,11 @@ namespace GreenTea
         public Value Evaluate(Scope scope)
         {
             return scope.Find(Name);
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }

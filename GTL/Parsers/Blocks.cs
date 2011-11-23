@@ -28,6 +28,6 @@ namespace GreenTea
             from close in Parse.Char('}')
             select new Block(first.Concat(rest)),
 
-        Block = EmptyBlock.XOr(FilledBlock);
+        Block = EmptyBlock.Or(FilledBlock);
     }
 }

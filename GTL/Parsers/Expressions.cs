@@ -16,7 +16,7 @@ namespace GreenTea
                 Expression = p;
 
             else
-                Expression = Expression.XOr(p);
+                Expression = Expression.Or(p);
         }
 
         static Parser()

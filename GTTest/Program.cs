@@ -36,6 +36,8 @@ namespace GTTest
 
             new Declaration("foobar", new ExpressionList(new GTString("foo"), test.Root), ScopeMode.Export).Evaluate(test.Root);
 
+            var v = Parser.ParseString("var foo = 50 var bar = 30 foo bar");
+
             Console.ReadKey(true);
         }
     }

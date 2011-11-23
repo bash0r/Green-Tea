@@ -50,6 +50,6 @@ namespace GreenTea
             from id in Identifier
             select new Usage(id),
 
-        VariableExp = VariableInit.XOr(VariableExport).XOr(VariableStatic).XOr(VariableSet).XOr(VariableUsage);
+        VariableExp = VariableInit.Or(VariableExport).Or(VariableStatic).Or(VariableSet).Or(VariableUsage);
     }
 }

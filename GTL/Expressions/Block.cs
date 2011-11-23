@@ -20,5 +20,17 @@ namespace GreenTea
 
             return ret;
         }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("{");
+
+            foreach (var ex in this)
+                sb.AppendLine(ex.ToString());
+
+            sb.Append("}");
+            return sb.ToString();
+        }
     }
 }

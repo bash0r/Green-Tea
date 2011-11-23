@@ -8,9 +8,9 @@ namespace GreenTea
 {
     public static partial class Parser
     {
-        public static Value ParseString(string s)
+        public static IExpression ParseString(string s)
         {
-            return GTVoid.Void;
+            return Block.Parse("{" + s + "}");
         }
 
         // Whitespace

@@ -37,6 +37,6 @@ namespace GreenTea
             select new GTString(body),
 
         Literal =
-            VoidLiteral.XOr(BoolLiteral).XOr(FloatLiteral).XOr(IntLiteral).XOr(StringLiteral);
+            VoidLiteral.Or(BoolLiteral).Or(FloatLiteral).Or(IntLiteral).Or(StringLiteral);
     }
 }
