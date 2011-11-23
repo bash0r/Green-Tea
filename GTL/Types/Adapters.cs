@@ -58,6 +58,16 @@ namespace GreenTea
     #endregion
     }
 
+    public class GTBool : GTAdapter<Boolean>
+    {
+        public override GTType Type
+        {
+            get { return GTType.Bool; }
+        }
+
+        public GTBool(Boolean v) : base(v) { }
+    }
+
     public class GTInt : GTAdapter<Int64>
     {
         public override GTType Type

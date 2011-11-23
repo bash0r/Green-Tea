@@ -13,9 +13,10 @@ namespace GreenTea
         public Value Evaluate(Scope scope)
         {
             Value ret = GTVoid.Void;
+            Scope ex = new Scope(scope, scope.Namespace);
 
             foreach (var exp in this)
-                ret = exp.Evaluate(scope);
+                ret = exp.Evaluate(ex);
 
             return ret;
         }

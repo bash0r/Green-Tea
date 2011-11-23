@@ -10,24 +10,27 @@ includes = include , { space, include } ;
 include = "include " , identifier ;
 
 expression = block | literal | variable exp | condition | function exp | binary operator | select ;
+block = empty block | filled block ;
+empty block = "{" , [ space ] , "}" ;
+filled block = "{" , [ space ] , expression , { space , expression } , [ space ] , "}" ;
 
 binary operator = expression , [ space ] , operator char , [ space ] , expression ;
 operator char = "+" | "-" | "*" | "/" | "^" ;
 
 literal = int literal | float literal | string literal | bool literal | void literal | list literal ;
 void literal = "void" ;
-int literal = digit , { digit } ;
-float literal = int literal , "." , int literal ;
+int literal = [ "-" ] , digit , { digit } ;
+float literal = int literal , "." , digit , { digit } ;
 bool literal = "true" | "false" ;
 string literal = '"' , { string body } , '"' ;
 string body = ? all characters except " and \ ? | "\\" | '\"' ;
 
-variable exp = variable usage | variable init | variable create | variable set | variable export ;
+variable exp = variable usage | variable init | variable create | variable set | variable export | variable static ;
 variable usage = identifier ;
-variable init = "var" , space , identifier ;
-variable create = variable init, set ;
+variable init = "var" , space , identifier , [ set ] ;
+variable export = "export" , space , identifier , [ set ] ;
+variable static = "static" , space , identifier , [ set ] ;
 variable set = identifier , set ;
-variable export = "export" , space , identifier , set ;
 set = [ space ] , "=" , [ space ] , expression ;
 
 condition = if | case
