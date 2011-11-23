@@ -12,8 +12,5 @@ namespace GreenTea
         {
             return Block.Parse("{" + s + "}");
         }
-
-        // Whitespace
-        private static Parser<string> Space = Parse.WhiteSpace.AtLeastOnce().Text();
     }
 }

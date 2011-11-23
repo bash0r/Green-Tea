@@ -45,17 +45,17 @@ namespace GreenTea
 
             // Check the parameter count
             if (Parameters.Count > f.Parameters.Count)
-                throw new InvalidOperationException("Too many arguments in call to function");
+                throw new InvalidOperationException("Too many arguments in call to function: " + Function.ToString());
 
             // Create evaluation context
-            Scope s = new Scope(scope, scope.Namespace);
+            Scope s = new Scope(f.Container, scope.Namespace);
 
             for (int i = 0; i < Parameters.Count; i++)
                 s.Add(f.Parameters[i], Parameters[i].Evaluate(scope));
 
             // All parameters filled
             if (Parameters.Count == f.Parameters.Count)
-                return f.Evaluate(s);
+                return f.Body.Evaluate(s);
 
             // Partial application: Create a new function
             var newparams = new List<string>();

@@ -12,19 +12,19 @@ namespace GreenTea
 
         EmptyBlock =
             from open in Parse.Char('{')
-            from space in Space.Many()
+            from space in Parse.WhiteSpace.Many()
             from close in Parse.Char('}')
             select new Block(),
 
         FilledBlock =
             from open in Parse.Char('{')
-            from s1 in Space.Many()
+            from s1 in Parse.WhiteSpace.Many()
             from first in Expression.Once()
             from rest in
-                (from _ in Space
+                (from _ in Parse.WhiteSpace.AtLeastOnce()
                  from e in Expression
                  select e).Many()
-            from s2 in Space.Many()
+            from s2 in Parse.WhiteSpace.Many()
             from close in Parse.Char('}')
             select new Block(first.Concat(rest)),
 

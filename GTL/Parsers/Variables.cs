@@ -11,9 +11,9 @@ namespace GreenTea
         private static Parser<IExpression>
 
         Set =
-            from s1 in Space.Many()
+            from s1 in Parse.WhiteSpace.Many()
             from eq in Parse.Char('=')
-            from s2 in Space.Many()
+            from s2 in Parse.WhiteSpace.Many()
             from exp in Expression
             select exp,
 
@@ -22,21 +22,21 @@ namespace GreenTea
 
         VariableInit =
             from word in Parse.String("var")
-            from s1 in Space
+            from s1 in Parse.WhiteSpace.AtLeastOnce()
             from id in Identifier
             from body in SetOpt
             select new Declaration(id, body, ScopeMode.Local),
 
         VariableExport =
             from word in Parse.String("export")
-            from s1 in Space
+            from s1 in Parse.WhiteSpace.AtLeastOnce()
             from id in Identifier
             from body in SetOpt
             select new Declaration(id, body, ScopeMode.Export),
 
         VariableStatic =
             from word in Parse.String("static")
-            from s1 in Space
+            from s1 in Parse.WhiteSpace.AtLeastOnce()
             from id in Identifier
             from body in SetOpt
             select new Declaration(id, body, ScopeMode.Static),
