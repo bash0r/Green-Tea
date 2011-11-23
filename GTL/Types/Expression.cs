@@ -2,61 +2,61 @@
 
 namespace GreenTea
 {
-    public sealed class ExpressionList : Value, GTList
+    public sealed class Expression : Value
     {
-        public IExpression Expression { get; private set; }
+        public IExpression Body { get; private set; }
         public Scope Container { get; private set; }
-        private GTList CacheVal = null;
+        private Value CacheVal = null;
 
-        private GTList Cache
+        private Value Cache
         {
             get
             {
                 if (CacheVal == null)
-                    CacheVal = (GTList)Expression.Evaluate(Container);
+                    CacheVal = Body.Evaluate(Container);
 
                 return CacheVal;
             }
         }
 
-        public ExpressionList(IExpression exp, Scope scope)
+        public Expression(IExpression exp, Scope scope)
         {
-            this.Expression = exp;
+            this.Body = exp;
             this.Container = scope;
         }
 
         #region Implementation
-        public int Count
+        public override int Count
         {
             get { return Cache.Count; }
         }
 
-        public GTList Add(Value v)
+        public override Value Add(Value v)
         {
             return Cache.Add(v);
         }
 
-        public IEnumerable<Value> Enumerate()
+        public override IEnumerable<Value> Enumerate()
         {
             return Cache.Enumerate();
         }
 
-        public Value this[int i]
+        public override Value this[int i]
         {
             get { return Cache[i]; }
         }
 
-        public GTList Set(int i, Value v)
+        public override Value Set(int i, Value v)
         {
             return Cache.Set(i, v);
         }
 
-        public GTList InsertBefore(int i, Value v)
+        public override Value InsertBefore(int i, Value v)
         {
             return Cache.InsertBefore(i, v);
         }
 
-        public GTList InsertAfter(int i, Value v)
+        public override Value InsertAfter(int i, Value v)
         {
             return Cache.InsertAfter(i, v);
         }

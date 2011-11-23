@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GreenTea
 {
-    public class GTVoid : Value, GTList
+    public class GTVoid : Value
     {
         public static readonly GTVoid Void = new GTVoid();
 
@@ -15,37 +15,37 @@ namespace GreenTea
         public GTVoid() { }
 
         #region Implementations
-        public int Count
+        public override int Count
         {
             get { return 0; }
         }
 
-        public GTList Add(Value v)
+        public override Value Add(Value v)
         {
-            return new TreeList(v);
+            return new Tree(v);
         }
 
-        public IEnumerable<Value> Enumerate()
+        public override IEnumerable<Value> Enumerate()
         {
-            return new TreeList().Enumerate();
+            return new Tree().Enumerate();
         }
 
-        public Value this[int i]
+        public override Value this[int i]
         {
             get { throw new IndexOutOfRangeException(); }
         }
 
-        public GTList Set(int i, Value v)
+        public override Value Set(int i, Value v)
         {
             throw new IndexOutOfRangeException();
         }
 
-        public GTList InsertBefore(int i, Value v)
+        public override Value InsertBefore(int i, Value v)
         {
             throw new IndexOutOfRangeException();
         }
 
-        public GTList InsertAfter(int i, Value v)
+        public override Value InsertAfter(int i, Value v)
         {
             throw new IndexOutOfRangeException();
         }

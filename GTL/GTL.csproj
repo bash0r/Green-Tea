@@ -58,11 +58,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scope\Scope.cs" />
     <Compile Include="Types\Adapters.cs" />
-    <Compile Include="Types\ExpressionList.cs" />
+    <Compile Include="Types\Expression.cs" />
     <Compile Include="Types\Function.cs" />
     <Compile Include="Types\GTType.cs" />
     <Compile Include="Types\GTVoid.cs" />
-    <Compile Include="Types\TreeList.cs" />
+    <Compile Include="Types\Tree.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Sprache.dll">

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GreenTea
 {
-    public abstract class GTAdapter<T> : Value, GTList
+    public abstract class GTAdapter<T> : Value
     {
         public T Value { get; set; }
 
@@ -13,49 +13,11 @@ namespace GreenTea
         }
 
         #region Implementations
-        public int Count
-        {
-            get { return 1; }
-        }
-
-        public GTList Add(Value v)
-        {
-            return new TreeList(this).Add(v);
-        }
-
-        public IEnumerable<Value> Enumerate()
-        {
-            return new TreeList(this).Enumerate();
-        }
-
-        public Value this[int i]
-        {
-            get
-            {
-                return new TreeList(this)[i];
-            }
-        }
-
-        public GTList Set(int i, Value v)
-        {
-            return new TreeList(this).Set(i, v);
-        }
-
-        public GTList InsertBefore(int i, Value v)
-        {
-            return new TreeList(this).InsertBefore(i, v);
-        }
-
-        public GTList InsertAfter(int i, Value v)
-        {
-            return new TreeList(this).InsertAfter(i, v);
-        }
-
         public override string ToString()
         {
             return Value.ToString();
         }
-    #endregion
+        #endregion
     }
 
     public class GTBool : GTAdapter<Boolean>

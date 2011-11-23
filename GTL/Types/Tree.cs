@@ -5,61 +5,54 @@ using System.Text;
 
 namespace GreenTea
 {
-    public sealed class TreeList : Value, GTList
+    public sealed class Tree : Value
     {
         private Value Value;
-        private GTList Left;
-        private GTList Right;
+        private Value Left;
+        private Value Right;
 
         #region Constructors
-        public TreeList() { }
+        public Tree() { }
 
-        public TreeList(Value val) : this()
+        public Tree(Value val) : this()
         {
             this.Value = val;
-            this.CountCache = 1;
+            this.ThisCache = 1;
         }
 
-        public TreeList(Value val, GTList left, GTList right)
+        public Tree(Value val, Value left, Value right)
         {
             this.Value = val;
             this.Left = left;
             this.Right = right;
-            this.CountCache = null;
         }
 
-        public TreeList(IEnumerable<Value> list) : this()
+        public Tree(IEnumerable<Value> list) : this()
         {
             var v = this;
             
             foreach (Value ex in list)
-                v = (TreeList)v.Add(ex);
+                v = (Tree)v.Add(ex);
 
             // fake mutator
             this.Value = v.Value;
             this.Left = v.Left;
             this.Right = v.Right;
-
-            this.CountCache = list.Count();
         }
 
-        public TreeList(params Value[] list) : this((IEnumerable<Value>)list) { }
+        public Tree(params Value[] list) : this((IEnumerable<Value>)list) { }
         #endregion
 
         #region Caching
-        private int? CountCache = 0;
         private int? LeftCache;
         private int? RightCache;
         private int? ThisCache;
 
-        public int Count
+        public override int Count
         {
             get
             {
-                if (CountCache == null)
-                    CountCache = (Value == null ? 0 : 1) + (Left ?? GTVoid.Void).Count + (Right ?? GTVoid.Void).Count;
-
-                return CountCache.Value;
+                return LeftCount + ThisCount + RightCount;
             }
         }
 
@@ -98,75 +91,75 @@ namespace GreenTea
         #endregion
 
         #region Modification
-        public GTList Add(Value v)
+        public override Value Add(Value v)
         {
             if (Right == null)
                 if (Value == null)
-                    return new TreeList(v, Left, Right);
+                    return new Tree(v, Left, Right);
                 else
-                    return new TreeList(Value, Left, new TreeList(v));
+                    return new Tree(Value, Left, new Tree(v));
             else
-                return new TreeList(Value, Left, Right.Add(v));
+                return new Tree(Value, Left, Right.Add(v));
         }
 
-        public GTList Set(int i, Value v)
+        public override Value Set(int i, Value v)
         {
             if (i < LeftCount)
-                return new TreeList(Value, Left.Set(i, v), Right);
+                return new Tree(Value, Left.Set(i, v), Right);
 
             else if (i == LeftCount && ThisCount != 0)
-                return new TreeList(v, Left, Right);
+                return new Tree(v, Left, Right);
 
             else if (RightCount == 0)
                 throw new IndexOutOfRangeException();
 
             else
-                return new TreeList(Value, Left, Right.Set(i - LeftCount - ThisCount, v));
+                return new Tree(Value, Left, Right.Set(i - LeftCount - ThisCount, v));
         }
 
-        public GTList InsertBefore(int i, Value v)
+        public override Value InsertBefore(int i, Value v)
         {
             if (i < LeftCount)
-                return new TreeList(Value, Left.InsertBefore(i, v), Right);
+                return new Tree(Value, Left.InsertBefore(i, v), Right);
 
             else if (i == LeftCount && ThisCount != 0)
             {
                 if (Left == null)
-                    return new TreeList(Value, new TreeList(v), Right);
+                    return new Tree(Value, new Tree(v), Right);
                 else
-                    return new TreeList(Value, Left.InsertAfter(i, v), Right);
+                    return new Tree(Value, Left.InsertAfter(i, v), Right);
             }
 
             else if (RightCount == 0)
                 throw new IndexOutOfRangeException();
 
             else
-                return new TreeList(Value, Left, Right.InsertBefore(i - LeftCount - ThisCount, v));
+                return new Tree(Value, Left, Right.InsertBefore(i - LeftCount - ThisCount, v));
         }
 
-        public GTList InsertAfter(int i, Value v)
+        public override Value InsertAfter(int i, Value v)
         {
             if (i < LeftCount)
-                return new TreeList(Value, Left.InsertAfter(i, v), Right);
+                return new Tree(Value, Left.InsertAfter(i, v), Right);
 
             else if (i == LeftCount && ThisCount != 0)
             {
                 if (Right == null)
-                    return new TreeList(Value, Left, new TreeList(v));
+                    return new Tree(Value, Left, new Tree(v));
                 else
-                    return new TreeList(Value, Left, Right.InsertBefore(i, v));
+                    return new Tree(Value, Left, Right.InsertBefore(i, v));
             }
 
             else if (RightCount == 0)
                 throw new IndexOutOfRangeException();
 
             else
-                return new TreeList(Value, Left, Right.InsertAfter(i - LeftCount - ThisCount, v));
+                return new Tree(Value, Left, Right.InsertAfter(i - LeftCount - ThisCount, v));
         }
         #endregion
 
         #region Enumeration
-        public IEnumerable<Value> Enumerate()
+        public override IEnumerable<Value> Enumerate()
         {
             if (Left != null)
                 foreach (var v in Left.Enumerate())
@@ -180,7 +173,7 @@ namespace GreenTea
                     yield return v;
         }
 
-        public Value this[int i]
+        public override Value this[int i]
         {
             get
             {
