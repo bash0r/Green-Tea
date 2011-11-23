@@ -31,7 +31,7 @@ namespace GreenTea
                     break;
 
                 case ScopeMode.Export:
-                    Namespace.Export.Add(name, val);
+                    Namespace.Root.Add(name, val);
                     break;
 
                 case ScopeMode.Static:
@@ -56,10 +56,7 @@ namespace GreenTea
             if (Parent != null)
                 return Parent.TryFind(name, out ret, newval);
 
-            // recursion reached root
-            if (Namespace.Export.TryFind(name, out ret, newval))
-                return true;
-
+            // reached root, try static
             return Namespace.Static.TryFind(name, out ret, newval);
         }
 

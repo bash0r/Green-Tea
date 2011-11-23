@@ -7,7 +7,6 @@ namespace GreenTea
         public IEnumerable<string> Includes { get; private set; }
 
         public Scope Root { get; private set; }
-        public Scope Export { get; private set; }
         public Scope Static { get; private set; }
 
         public IExpression Main { get; private set; }
@@ -15,7 +14,6 @@ namespace GreenTea
         public Module(string name, IEnumerable<string> incs, IExpression main)
         {
             this.Root = new Scope(null, this);
-            this.Export = new Scope(null, this);
             this.Static = new Scope(null, this);
 
             this.Name = name;
