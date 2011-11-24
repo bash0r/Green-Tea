@@ -51,36 +51,64 @@ namespace GreenTea
         {
             // Evaluate the function
             Value v = Function.Evaluate(scope);
+            Value ret = new GTTree();
+            int c = v.Count;
 
-            if (v.Type != GTType.Function)
-                throw new InvalidOperationException("Cannot call non-function type"); // TODO: list calling / overloads
+            foreach (var res in v.Enumerate())
+            {
+                var r = res;
 
-            GTFunction f = (GTFunction)v;
+                if (r is GTLazy)
+                    r = ((GTLazy)res).Val;
 
-            // Check the parameter count
-            if (Parameters.Count > f.Parameters.Count)
-                throw new InvalidOperationException("Too many arguments in call to function: " + Function.ToString());
+                if (r.Type != GTType.Function)
+                    if (c == 1)
+                        throw new InvalidOperationException("Cannot call non-function type"); // TODO: list calling / overloads
+                    else
+                        continue;
 
-            // Create evaluation context
-            Scope s = new Scope(f.Container, scope.Namespace);
+                GTFunction f = (GTFunction)res;
 
-            // Add this() for recursion
-            s.Add("this", f);
+                // Check the parameter count
+                if (Parameters.Count > f.Parameters.Count)
+                    if (c == 1)
+                        throw new InvalidOperationException("Too many arguments in call to function: " + Function.ToString());
+                    else
+                        continue;
 
-            for (int i = 0; i < Parameters.Count; i++)
-                s.Add(f.Parameters[i], Parameters[i].Evaluate(scope));
+                // Create evaluation context
+                Scope s = new Scope(f.Container, scope.Namespace);
 
-            // All parameters filled
-            if (Parameters.Count == f.Parameters.Count)
-                return f.Body.Evaluate(s);
+                // Add this() for recursion
+                s.Add("this", f);
 
-            // Partial application: Create a new function
-            var newparams = new List<string>();
+                for (int i = 0; i < Parameters.Count; i++)
+                    s.Add(f.Parameters[i], Parameters[i].Evaluate(scope));
 
-            for (int i = f.Parameters.Count - Parameters.Count; i < f.Parameters.Count; i++)
-                newparams.Add(f.Parameters[i]);
+                // All parameters filled
+                if (Parameters.Count == f.Parameters.Count)
+                {
+                    ret = ret.Add(f.Body.Evaluate(s));
+                    continue;
+                }
 
-            return new GTFunction(f.Body, s, newparams);
+                // No partial application in list context
+                if (c > 1)
+                    continue;
+
+                // Partial application: Create a new function
+                var newparams = new List<string>();
+
+                for (int i = f.Parameters.Count - Parameters.Count; i < f.Parameters.Count; i++)
+                    newparams.Add(f.Parameters[i]);
+
+                return new GTFunction(f.Body, s, newparams);
+            }
+
+            if (ret.Count == 1)
+                return ret[0]; // single values -> skip the list stuff
+            else
+                return ret;
         }
 
         public override string ToString()
