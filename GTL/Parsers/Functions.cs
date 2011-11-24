@@ -29,8 +29,7 @@ namespace GreenTea
                  from s1 in Parse.WhiteSpace.Many()
                  from ex in Expression
                  select ex).Or(
-
-                 from name in Identifier
+                 from name in ParserMisc.Identifier
                  select new Usage(name))
             from s2 in Parse.WhiteSpace.Many()
             from open in Parse.Char('(')
@@ -72,7 +71,7 @@ namespace GreenTea
 
         Param =
             from s1 in Parse.WhiteSpace.Many()
-            from id in Identifier
+            from id in ParserMisc.Identifier
             from s2 in Parse.WhiteSpace.Many()
             select id;
     }

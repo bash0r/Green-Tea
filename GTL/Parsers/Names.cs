@@ -3,10 +3,10 @@ using Sprache;
 
 namespace GreenTea
 {
-    public static partial class Parser
+    internal static partial class ParserMisc
     {
         private static Parser<char>
-        
+
         IdFirst =
             Parse.Letter.XOr(Parse.Char(c => "äöüÄÖÜß_".Contains(c), "Umlaut")),
 
@@ -14,7 +14,7 @@ namespace GreenTea
             IdFirst.XOr(Parse.Digit);
 
 
-        private static Parser<string>
+        internal static Parser<string>
 
         Identifier =
             from first in IdFirst

@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="Expressions\Arithmetic.cs" />
     <Compile Include="Expressions\Conditional.cs" />
     <Compile Include="Expressions\Function.cs" />
     <Compile Include="Expressions\Lazy.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Parsers\Literals.cs" />
     <Compile Include="Parsers\Modules.cs" />
     <Compile Include="Parsers\Names.cs" />
+    <Compile Include="Expressions\Operator.cs" />
     <Compile Include="Parsers\Parsers.cs" />
     <Compile Include="Parsers\Selects.cs" />
     <Compile Include="Parsers\Variables.cs" />

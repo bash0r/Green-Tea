@@ -11,13 +11,13 @@ namespace GreenTea
         Namespace =
             from word in Parse.String("namespace")
             from space in Parse.WhiteSpace.AtLeastOnce()
-            from name in Identifier
+            from name in ParserMisc.Identifier
             select name,
 
         Include =
             from word in Parse.String("include")
             from space in Parse.WhiteSpace.AtLeastOnce()
-            from name in Identifier
+            from name in ParserMisc.Identifier
             select name;
 
 

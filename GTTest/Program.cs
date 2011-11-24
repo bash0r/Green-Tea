@@ -7,14 +7,23 @@ namespace GTTest
     {
         static void Main(string[] args)
         {
+            Parser.AddOperator(1, "+", (l, r) => new AddOperator(l, r));
+
             var v = Parser.ParseString(@"
 
-var foo = [[1, 2], [3, 4], &dfgdfgh]
+var foo = [[1, 2], [3, 4], &[5, 6]]
 
 var expr = &from x in foo
             from y in foo
-            where false
+            where true
             select x
+
+var bar = func(x) x
+
+from n in expr
+select bar(n)
+
+1+1
 
 ");
 

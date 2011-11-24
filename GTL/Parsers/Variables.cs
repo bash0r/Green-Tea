@@ -19,31 +19,31 @@ namespace GreenTea
         VariableInit =
             from word in Parse.String("var")
             from s1 in Parse.WhiteSpace.AtLeastOnce()
-            from id in Identifier
+            from id in ParserMisc.Identifier
             from body in SetOpt
             select new Declaration(id, body, ScopeMode.Local),
 
         VariableExport =
             from word in Parse.String("export")
             from s1 in Parse.WhiteSpace.AtLeastOnce()
-            from id in Identifier
+            from id in ParserMisc.Identifier
             from body in SetOpt
             select new Declaration(id, body, ScopeMode.Export),
 
         VariableStatic =
             from word in Parse.String("static")
             from s1 in Parse.WhiteSpace.AtLeastOnce()
-            from id in Identifier
+            from id in ParserMisc.Identifier
             from body in SetOpt
             select new Declaration(id, body, ScopeMode.Static),
 
         VariableSet =
-            from id in Identifier
+            from id in ParserMisc.Identifier
             from body in Set
             select new Assignment(id, body),
 
         VariableUsage =
-            from id in Identifier
+            from id in ParserMisc.Identifier
             select new Usage(id),
 
         VariableExp = VariableInit.Or(VariableExport).Or(VariableStatic).Or(VariableSet).Or(VariableUsage);
