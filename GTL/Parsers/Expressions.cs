@@ -101,7 +101,7 @@ namespace GreenTea
             AddExpression(4, FunctionExp);
             AddExpression(5, Lazy);
 
-            //AddOperator(-3, "^", (l, r) => new DynamicOperator(l, r, (a, b) => Math.Pow(a, b)));
+            //AddOperator(-1, "^", (l, r) => new DynamicOperator(l, r, (a, b) => Math.Pow(a, b)));
 
             AddOperator(-2, "*", (l, r) => new MulOperator(l, r));
             AddOperator(-2, "/", (l, r) => new DivOperator(l, r));
@@ -110,8 +110,11 @@ namespace GreenTea
             AddOperator(-3, "+", (l, r) => new AddOperator(l, r));
             AddOperator(-3, "-", (l, r) => new SubOperator(l, r));
 
+            AddOperator(-10, "<=", (l, r) => new LTEOperator(l, r));
+            AddOperator(-10, ">=", (l, r) => new GTEOperator(l, r));
             AddOperator(-10, "<", (l, r) => new LTOperator(l, r));
             AddOperator(-10, ">", (l, r) => new GTOperator(l, r));
+
             AddOperator(-11, "==", (l, r) => new EqOperator(l, r));
             AddOperator(-11, "!=", (l, r) => new NeqOperator(l, r));
 
