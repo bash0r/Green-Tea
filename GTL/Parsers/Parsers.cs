@@ -6,7 +6,7 @@ namespace GreenTea
     {
         public static IExpression ParseString(string s)
         {
-            return Block.End().Parse("{" + s + "}");
+            return Expression.End().Parse(s);
         }
     }
 }

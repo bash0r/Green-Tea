@@ -66,5 +66,10 @@ namespace GreenTea
         {
             return '"' + Value + '"';
         }
+
+        public override int Count
+        {
+            get { return Value.Length; }
+        }
     }
 }

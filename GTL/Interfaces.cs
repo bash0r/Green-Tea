@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System;
 
 namespace GreenTea
 {
@@ -11,19 +10,6 @@ namespace GreenTea
     public abstract class Value : IExpression
     {
         public abstract GTType Type { get; }
-
-        public virtual bool IsTrue()
-        {
-            if (Type == GTType.Bool)
-                if (((GTBool)this).Value)
-                    return true;
-                else
-                    return false;
-            else if (Count == 0)
-                return false;
-            else
-                throw new InvalidOperationException(ToString() + " is not a conditional, got " + Type);
-        }
 
         public virtual int Count
         {

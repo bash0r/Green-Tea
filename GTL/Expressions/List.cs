@@ -32,4 +32,24 @@ namespace GreenTea
             return String.Format("[{0}]", args);
         }
     }
+
+    public class ListAdd : Operator
+    {
+        public ListAdd(IExpression left, IExpression right) : base(left, right) { }
+
+        public override Value Evaluate(Scope scope)
+        {
+            return Left.Evaluate(scope).Add(Right.Evaluate(scope));
+        }
+    }
+
+    public class ListAddRange : Operator
+    {
+        public ListAddRange(IExpression left, IExpression right) : base(left, right) { }
+
+        public override Value Evaluate(Scope scope)
+        {
+            return Left.Evaluate(scope).AddRange(Right.Evaluate(scope));
+        }
+    }
 }

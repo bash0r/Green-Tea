@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Sprache;
 
 namespace GreenTea
@@ -21,13 +22,18 @@ namespace GreenTea
             get { return ExpressionCache ?? RebuildExp(); }
         }
 
-        private static List<Parser<IExpression>> ExpressionList = new List<Parser<IExpression>>();
+        private static Dictionary<int, List<Parser<IExpression>>> ExpressionList = new Dictionary<int, List<Parser<IExpression>>>();
         private static Dictionary<int, List<Tuple<string, Func<IExpression, IExpression, Operator>>>> OperatorList = new Dictionary<int, List<Tuple<string, Func<IExpression, IExpression, Operator>>>>();
 
-        public static void AddExpression(Parser<IExpression> p)
+        public static void AddExpression(int prec, Parser<IExpression> p)
         {
-            ExpressionList.Add(p);
+            if (!ExpressionList.ContainsKey(prec))
+                ExpressionList[prec] = new List<Parser<IExpression>>();
+
+            ExpressionList[prec].Add(p);
             ExpressionCache = null;
+
+            RebuildExp();
         }
 
         public static void AddOperator(int prec, string name, Func<IExpression, IExpression, Operator> op)
@@ -41,32 +47,45 @@ namespace GreenTea
 
         private static Parser<IExpression> RebuildExp()
         {
-            foreach (var v in ExpressionList)
-                if (ExpressionCache == null)
-                    ExpressionCache = v;
-                else
-                    ExpressionCache = ExpressionCache.Or(v);
-
             // sort by precedence
-            List<int> precs = new List<int>(OperatorList.Keys);
-            precs.Sort();
+            var precs = new List<int>(ExpressionList.Keys);
+
+            foreach (var k in OperatorList.Keys)
+                if (!ExpressionList.ContainsKey(k))
+                    precs.Add(k);
+
+            // descending
+            precs.Sort((a, b) => b.CompareTo(a));
 
             foreach (var k in precs)
             {
-                Parser<Func<IExpression, IExpression, Operator>> cache = null;
+                // expressions
+                if (ExpressionList.ContainsKey(k))
+                    foreach (var v in ExpressionList[k])
+                        if (ExpressionCache == null)
+                            ExpressionCache = v;
+                        else
+                            ExpressionCache = ExpressionCache.Or(v);
 
-                foreach (var op in OperatorList[k])
+                // operators
+                if (OperatorList.ContainsKey(k))
                 {
-                    var p = from symbol in Parse.String(op.Item1).Text()
-                            select op.Item2;
+                    Parser<Func<IExpression, IExpression, Operator>> cache = null;
 
-                    if (cache == null)
-                        cache = p;
-                    else
-                        cache = cache.Or(p);
+                    foreach (var op in OperatorList[k])
+                    {
+                        var c = op; // closure
+                        var p = from symbol in Parse.String(c.Item1).Text()
+                                select c.Item2;
+
+                        if (cache == null)
+                            cache = p;
+                        else
+                            cache = cache.Or(p);
+                    }
+
+                    ExpressionCache = Parse.ChainOperator(cache, ExpressionCache, (op, left, right) => op(left, right));
                 }
-
-                ExpressionCache = Parse.ChainOperator(cache, ExpressionCache, (op, left, right) => op(left, right));
             }
 
             return ExpressionCache;
@@ -74,14 +93,29 @@ namespace GreenTea
 
         static Parser()
         {
-            AddExpression(Literal);
-            AddExpression(Lazy);
-            AddExpression(Block);
-            AddExpression(Conditional);
-            AddExpression(Select);
-            AddExpression(FunctionExp);
-            AddExpression(VariableExp);
-            AddExpression(ListExp);
+            AddExpression(0, Block);
+            AddExpression(0, ListExp);
+            AddExpression(1, Literal);
+            AddExpression(2, VariableExp);
+            AddExpression(3, Select);
+            AddExpression(3, Conditional);
+            AddExpression(4, FunctionExp);
+            AddExpression(5, Lazy);
+
+            //AddOperator(-3, "^", (l, r) => new DynamicOperator(l, r, (a, b) => Math.Pow(a, b)));
+
+            AddOperator(-2, "*", (l, r) => new MulOperator(l, r));
+            AddOperator(-2, "/", (l, r) => new DivOperator(l, r));
+            AddOperator(-2, "%", (l, r) => new ModOperator(l, r));
+
+            AddOperator(-3, "+", (l, r) => new AddOperator(l, r));
+            AddOperator(-3, "-", (l, r) => new SubOperator(l, r));
+
+            AddOperator(-10, "==", (l, r) => new EqOperator(l, r));
+            AddOperator(-10, "!=", (l, r) => new NeqOperator(l, r));
+
+            AddOperator(-20, "<-", (l, r) => new ListAdd(l, r));
+            AddOperator(-20, "<=", (l, r) => new ListAddRange(l, r));
         }
     }
 }

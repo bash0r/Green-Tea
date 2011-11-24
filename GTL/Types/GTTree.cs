@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace GreenTea
@@ -191,7 +190,7 @@ namespace GreenTea
                 else if (i == LeftCount && ThisCount != 0)
                     return Value;
 
-                else if (RightCount == 0)
+                else if (Right == null)
                     throw new IndexOutOfRangeException();
 
                 else

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GreenTea;
 
 namespace GTTest
@@ -7,29 +8,18 @@ namespace GTTest
     {
         static void Main(string[] args)
         {
-            Parser.AddOperator(1, "+", (l, r) => new AddOperator(l, r));
-
-            var v = Parser.ParseString(@"
-
-var foo = [[1, 2], [3, 4], &[5, 6]]
-
-var expr = &from x in foo
-            from y in foo
-            where true
-            select x
-
-var bar = func(x) x
-
-from n in expr
-select bar(n)
-
-1+1
-
-");
+            var v = Parser.ParseString(@"{
+    export inf = :func(n) n<=&this(n+1)(0)
+}");
 
             Console.WriteLine(v);
             Console.WriteLine();
-            Console.WriteLine(v.Evaluate(new Scope(null, null)));
+
+            Module m = new Module("test", new List<string>(), v);
+            var res = v.Evaluate(m.Root);
+            //Console.WriteLine(res);
+
+            var x = res[5];
 
             Console.ReadKey(true);
         }

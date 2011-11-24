@@ -1,43 +1,79 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace GreenTea
 {
-    internal static partial class ValueExt
-    {
-        internal static bool IsNumber(this Value v)
-        {
-            return (v.Type == GTType.Float || v.Type == GTType.Integer);
-        }
-
-        internal static dynamic AsNumber(this Value v)
-        {
-            switch (v.Type)
-            {
-                case GTType.Float:
-                    return ((GTFloat)v).Value;
-
-                case GTType.Integer:
-                    return ((GTInt)v).Value;
-
-                case GTType.Bool:
-                    return ((GTBool)v).Value ? 1 : 0;
-
-                default:
-                    return 0;
-            }
-        }
-    }
-
-    public class AddOperator : Operator
+    public class AddOperator : OpAdapter
     {
         public AddOperator(IExpression left, IExpression right) : base(left, right) { }
 
-        public override Value Evaluate(Scope scope)
+        protected override Func<dynamic, dynamic, dynamic> Fun
         {
-            return Left.Evaluate(scope).AsNumber() + Right.Evaluate(scope).AsNumber();
+            get { return (l, r) => l + r; }
+        }
+
+        public override string ToString()
+        {
+            return String.Format("{0} + {1}", Left, Right);
+        }
+    }
+
+    public class SubOperator : OpAdapter
+    {
+        public SubOperator(IExpression left, IExpression right) : base(left, right) { }
+
+        protected override Func<dynamic, dynamic, dynamic> Fun
+        {
+            get { return (l, r) => l - r; }
+        }
+
+        public override string ToString()
+        {
+            return String.Format("{0} - {1}", Left, Right);
+        }
+    }
+
+    public class MulOperator : OpAdapter
+    {
+        public MulOperator(IExpression left, IExpression right) : base(left, right) { }
+
+        protected override Func<dynamic, dynamic, dynamic> Fun
+        {
+            get { return (l, r) => l * r; }
+        }
+
+        public override string ToString()
+        {
+            return String.Format("{0} * {1}", Left, Right);
+        }
+    }
+
+    public class DivOperator : OpAdapter
+    {
+        public DivOperator(IExpression left, IExpression right) : base(left, right) { }
+
+        protected override Func<dynamic, dynamic, dynamic> Fun
+        {
+            get { return (l, r) => l / r; }
+        }
+
+        public override string ToString()
+        {
+            return String.Format("{0} / {1}", Left, Right);
+        }
+    }
+
+    public class ModOperator : OpAdapter
+    {
+        public ModOperator(IExpression left, IExpression right) : base(left, right) { }
+
+        protected override Func<dynamic, dynamic, dynamic> Fun
+        {
+            get { return (l, r) => l % r; }
+        }
+
+        public override string ToString()
+        {
+            return String.Format("{0} % {1}", Left, Right);
         }
     }
 }

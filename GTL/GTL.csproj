@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Constants.cs" />
     <Compile Include="Expressions\Arithmetic.cs" />
+    <Compile Include="Expressions\Compare.cs" />
     <Compile Include="Expressions\Conditional.cs" />
     <Compile Include="Expressions\Function.cs" />
     <Compile Include="Expressions\Lazy.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Types\GTType.cs" />
     <Compile Include="Types\GTVoid.cs" />
     <Compile Include="Types\GTTree.cs" />
+    <Compile Include="ValueExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Sprache.dll">
