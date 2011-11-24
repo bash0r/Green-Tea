@@ -115,8 +115,8 @@ namespace GreenTea
             AddOperator(-11, "==", (l, r) => new EqOperator(l, r));
             AddOperator(-11, "!=", (l, r) => new NeqOperator(l, r));
 
-            AddOperator(-20, "<-", (l, r) => new ListAdd(l, r));
-            AddOperator(-20, "<~", (l, r) => new ListAddRange(l, r));
+            AddOperator(-20, "-<", (l, r) => new ListAdd(l, r));
+            AddOperator(-20, "~<", (l, r) => new ListAddRange(l, r));
         }
     }
 }
