@@ -9,9 +9,9 @@ namespace GTTest
         static void Main(string[] args)
         {
             var v = Parser.ParseString(@"{
-    var test = [
+    static test = [
         func(x) x,
-        func(x,y) x+y
+        func(x,y) test(x+y)
     ]
 
     test(2.5)+test(1,3)
