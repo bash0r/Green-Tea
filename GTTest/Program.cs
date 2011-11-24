@@ -9,7 +9,7 @@ namespace GTTest
         static void Main(string[] args)
         {
             var v = Parser.ParseString(@"{
-    &[]~<{}
+    true||&false
 }");
 
             Console.WriteLine(v);

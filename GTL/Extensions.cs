@@ -11,6 +11,9 @@ namespace GreenTea
 
         public static bool IsTrue(this Value v)
         {
+            if (v is GTLazy)
+                v = ((GTLazy)v).Val;
+
             if (v.Type == GTType.Bool)
                 if (((GTBool)v).Value)
                     return true;

@@ -41,6 +41,11 @@ namespace GreenTea
         {
             return Left.Evaluate(scope).Add(Right.Evaluate(scope));
         }
+
+        public override string ToString()
+        {
+            return String.Format("{0} -< {1}", Left, Right);
+        }
     }
 
     public class ListAddRange : Operator
@@ -50,6 +55,11 @@ namespace GreenTea
         public override Value Evaluate(Scope scope)
         {
             return Left.Evaluate(scope).AddRange(Right.Evaluate(scope));
+        }
+
+        public override string ToString()
+        {
+            return String.Format("{0} ~< {1}", Left, Right);
         }
     }
 }

@@ -56,6 +56,7 @@
     <Compile Include="Expressions\Block.cs" />
     <Compile Include="Interfaces.cs" />
     <Compile Include="Modules\Module.cs" />
+    <Compile Include="Operators\Logic.cs" />
     <Compile Include="Parsers\Blocks.cs" />
     <Compile Include="Parsers\Conditionals.cs" />
     <Compile Include="Parsers\Expressions.cs" />
