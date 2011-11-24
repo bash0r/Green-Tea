@@ -9,7 +9,7 @@ namespace GTTest
         static void Main(string[] args)
         {
             var v = Parser.ParseString(@"{
-    export inf = :func(n) n<=&this(n+1)(0)
+    1+2+3
 }");
 
             Console.WriteLine(v);
@@ -17,9 +17,7 @@ namespace GTTest
 
             Module m = new Module("test", new List<string>(), v);
             var res = v.Evaluate(m.Root);
-            //Console.WriteLine(res);
-
-            var x = res[5];
+            Console.WriteLine(res);
 
             Console.ReadKey(true);
         }

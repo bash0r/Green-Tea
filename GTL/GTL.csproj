@@ -76,7 +76,7 @@
     <Compile Include="Types\GTType.cs" />
     <Compile Include="Types\GTVoid.cs" />
     <Compile Include="Types\GTTree.cs" />
-    <Compile Include="ValueExtensions.cs" />
+    <Compile Include="Extensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Sprache.dll">
