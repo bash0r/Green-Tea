@@ -63,7 +63,7 @@ namespace GreenTea
 
                 if (r.Type != GTType.Function)
                     if (c == 1)
-                        throw new InvalidOperationException("Cannot call non-function type"); // TODO: list calling / overloads
+                        throw new InvalidOperationException("Cannot call non-function type");
                     else
                         continue;
 

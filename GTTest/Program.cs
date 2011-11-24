@@ -14,7 +14,7 @@ namespace GTTest
         func(x,y) x+y
     ]
 
-    test(2)+test(1, 3)
+    test(2.5)+test(1,3)
 }");
 
             Console.WriteLine(v);
