@@ -9,7 +9,7 @@ namespace GTTest
         static void Main(string[] args)
         {
             var v = Parser.ParseString(@"{
-    1+2+3
+    1+2+3<7
 }");
 
             Console.WriteLine(v);

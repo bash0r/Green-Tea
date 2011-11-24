@@ -110,11 +110,13 @@ namespace GreenTea
             AddOperator(-3, "+", (l, r) => new AddOperator(l, r));
             AddOperator(-3, "-", (l, r) => new SubOperator(l, r));
 
-            AddOperator(-10, "==", (l, r) => new EqOperator(l, r));
-            AddOperator(-10, "!=", (l, r) => new NeqOperator(l, r));
+            AddOperator(-10, "<", (l, r) => new LTOperator(l, r));
+            AddOperator(-10, ">", (l, r) => new GTOperator(l, r));
+            AddOperator(-11, "==", (l, r) => new EqOperator(l, r));
+            AddOperator(-11, "!=", (l, r) => new NeqOperator(l, r));
 
             AddOperator(-20, "<-", (l, r) => new ListAdd(l, r));
-            AddOperator(-20, "<=", (l, r) => new ListAddRange(l, r));
+            AddOperator(-20, "<~", (l, r) => new ListAddRange(l, r));
         }
     }
 }
