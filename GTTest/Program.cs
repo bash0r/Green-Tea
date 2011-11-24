@@ -9,7 +9,10 @@ namespace GTTest
         static void Main(string[] args)
         {
             var v = Parser.ParseString(@"{
-    true||&false
+    var a = [1, 2, 3, 4, 5]
+    var b = [1, 2, 3, 4, 6]
+
+    a<b
 }");
 
             Console.WriteLine(v);
