@@ -8,7 +8,7 @@ namespace GreenTea
 
         public override Value Evaluate(Scope scope)
         {
-            return new GTBool(Left.Evaluate(scope).Equal(Right.Evaluate(scope)));
+            return new GTBool(Left.Evaluate(scope).CompareTo(Right.Evaluate(scope)) == 0);
         }
 
         public override string ToString()
@@ -23,7 +23,7 @@ namespace GreenTea
 
         public override Value Evaluate(Scope scope)
         {
-            return new GTBool(!Left.Evaluate(scope).Equal(Right.Evaluate(scope)));
+            return new GTBool(Left.Evaluate(scope).CompareTo(Right.Evaluate(scope)) != 0);
         }
 
         public override string ToString()
