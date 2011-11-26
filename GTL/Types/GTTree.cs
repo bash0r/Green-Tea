@@ -28,7 +28,7 @@ namespace GreenTea
 
         public GTTree(IEnumerable<Value> list) : this()
         {
-            var v = this;
+            var v = new GTTree();
             
             foreach (Value ex in list)
                 v = (GTTree)v.Add(ex);
@@ -43,8 +43,10 @@ namespace GreenTea
         #endregion
 
         #region Caching
-        private int? LeftCache;
-        private int? RightCache;
+        private int? LeftCCache;
+        private int? RightCCache;
+        private int? LeftSCache;
+        private int? RightSCache;
         private int? ThisCache;
 
         public override int Count
@@ -55,14 +57,22 @@ namespace GreenTea
             }
         }
 
+        public override int Size
+        {
+            get
+            {
+                return LeftSize + ThisSize + RightSize;
+            }
+        }
+
         private int LeftCount
         {
             get
             {
-                if (LeftCache == null)
-                    LeftCache = (Left ?? GTVoid.Void).Count;
+                if (LeftCCache == null)
+                    LeftCCache = (Left ?? GTVoid.Void).Count;
 
-                return LeftCache.Value;
+                return LeftCCache.Value;
             }
         }
 
@@ -70,10 +80,10 @@ namespace GreenTea
         {
             get
             {
-                if (RightCache == null)
-                    RightCache = (Right ?? GTVoid.Void).Count;
+                if (RightCCache == null)
+                    RightCCache = (Right ?? GTVoid.Void).Count;
 
-                return RightCache.Value;
+                return RightCCache.Value;
             }
         }
 
@@ -87,18 +97,48 @@ namespace GreenTea
                 return ThisCache.Value;
             }
         }
+
+        private int LeftSize
+        {
+            get
+            {
+                if (LeftSCache == null)
+                    LeftSCache = (Left ?? GTVoid.Void).Size;
+
+                return LeftSCache.Value;
+            }
+        }
+
+        private int RightSize
+        {
+            get
+            {
+                if (RightSCache == null)
+                    RightSCache = (Right ?? GTVoid.Void).Size;
+
+                return RightSCache.Value;
+            }
+        }
+
+        private int ThisSize
+        {
+            get
+            {
+                return ThisCount;
+            }
+        }
         #endregion
 
         #region Modification
         public override Value Add(Value v)
         {
-            if (Right == null)
-                if (Value == null)
-                    return new GTTree(v, Left, Right);
-                else
-                    return new GTTree(Value, Left, new GTTree(v));
+            if (LeftSize <= RightSize)
+                return new GTTree(v, this, null);
             else
-                return new GTTree(Value, Left, Right.Add(v));
+                if (Right == null)
+                    return new GTTree(Value, Left, new GTTree(v));
+                else
+                    return new GTTree(Value, Left, Right.Add(v));
         }
 
         public override Value AddRange(Value v)

@@ -31,6 +31,14 @@ namespace GreenTea
             get { return Val.Count; }
         }
 
+        public override int Size
+        {
+            get
+            {
+                return 1;
+            }
+        }
+
         public override Value Add(Value v)
         {
             return Val.Add(v);

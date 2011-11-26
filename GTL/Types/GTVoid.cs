@@ -20,6 +20,11 @@ namespace GreenTea
             get { return 0; }
         }
 
+        public override int Size
+        {
+            get { return 0; }
+        }
+
         public override Value Add(Value v)
         {
             return new GTTree(v);

@@ -16,6 +16,11 @@ namespace GreenTea
             get { return 1; }
         }
 
+        public virtual int Size
+        {
+            get { return 1; }
+        }
+
         public virtual Value Add(Value v)
         {
             return new GTTree(this).Add(v);
