@@ -16,7 +16,7 @@ namespace GreenTea
 
         public static IExpression ParseString(string s)
         {
-            return Expression.End().Parse(s);
+            return Expression.Parse(s);
         }
 
         /*

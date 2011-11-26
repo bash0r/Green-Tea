@@ -121,8 +121,8 @@ namespace GreenTea
             AddOperator(-15, "&&", (l, r) => new AndOp(l, r));
             AddOperator(-15, "||", (l, r) => new OrOp(l, r));
 
-            AddOperator(-20, "<-", (l, r) => new ListAdd(l, r));
-            AddOperator(-20, "<~", (l, r) => new ListAddRange(l, r));
+            AddOperator(-20, "-<", (l, r) => new ListAdd(l, r));
+            AddOperator(-20, "~<", (l, r) => new ListAddRange(l, r));
         }
     }
 }
