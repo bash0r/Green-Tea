@@ -9,5 +9,6 @@
         String,
         List,
         Function,
+        Scope,
     }
 }
