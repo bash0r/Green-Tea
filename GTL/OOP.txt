@@ -1,0 +1,54 @@
+﻿Design:
+
+include<IO.gts>
+
+namespace SampleFile {
+	
+	export SampleType =
+		type {
+			public new =
+				func ( ) {
+				}
+		}
+	
+	export Main =
+		func ( args ) {
+			var samples = from arg in args
+						  select new SampleType( arg )
+		}
+}
+
+Comments:
+Ich bin der Meinung wir brauchen ein Keyword wie type, class oder struct. Eine Raute wäre schlicht und ergreifend zu unleserlich.
+Ich persönlich fände type am Sinnvollsten, da es ja keine "Klasse" oder "Struktur" ist. Wir brauchen doch kein zweites Brainfuck erstellen?
+
+Ach noch ne Idee:
+Wenn ein Namespace Subnamespaces hat, dann wird das per Punkt aufgerufen,
+sobald auf ein Objekt in einem Namespace zugegriffen wird, wird ein Doppelpunkt nötig.
+Beispiel: System.IO:Print("Ohh you touch my trallala")
+
+http://www.youtube.com/watch?v=DbYtqAWDF2U
+
+Desweiteren fände ich Usingdirektiven immer noch sehr sinnvoll.
+Im Grunde kann man alle export-Variablen in das Modul laden, das man derzeit verwendet.
+
+Modul1 hat 10 Variablen als export deklariert.
+Modul2 hat 2 Variablen als export deklariert.
+
+In der Codedatei von Modul2 wird Modul1 eingebunden und der Namespace von Modul1 wird im Code von Modul2 per using Deklariert.
+Modul2 hat demnach 12 export-Variablen.
+
+Zu überlegen wäre dabei, ob es sinnvoll ist, Namespaces rekursiv mit einzubinden.
+
+Beispiel:
+Modul1 hat 5 e-Variablen.
+Modul2 hat 3 e-Variablen.
+Modul3 hat 10 e-Variablen.
+
+Modul2 bindet Modul1 mit seinem Namespace ein und hat demnach 8 e-Variablen.
+Modul3 bindet Modul1 mit seinem Namespace ein und hat demnach 18 e-Variablen.
+
+Allerdings könnte das zu großer Ressourcenverschwendung führen...
+
+Wenn Modul2 eine e-Variable besitzt, deren Name einer e-Variable aus Modul1 entspricht, dann wird die entsprechende
+e-Variable nicht in Modul2 übernommen, sie muss dann mit ihrem Namespace aufgerufen werden.
