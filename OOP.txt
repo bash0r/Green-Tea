@@ -1,0 +1,28 @@
+﻿include <IO.gts>
+
+namespace SampleFile {
+    using IO
+	
+	export SampleType =
+		scope {
+			public SampleVariable
+			public ToString = func SampleVariable
+            
+			public new =
+				func(sample) {
+					this.SampleVariable = sample
+				}
+		}
+	
+	export Main =
+		func(args) {
+			var samples = from arg in args
+						  select new SampleType(arg)
+                          
+            print(from s in samples
+                  select s.ToString())
+                  
+            // alternativ:
+            print(samples.ToString()) // würde bei listen die operation auf alle member ausführen und die ergebnisse zusammenfassen
+		}
+}
