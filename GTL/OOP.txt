@@ -1,4 +1,7 @@
-﻿Design:
+﻿Hab mir paar Gedanken zum Design der OOP und des Syntax-Addings gemacht.
+Viel Spaß bei den kommenden 100 Zeilen. :)
+
+[OOP]
 
 include<IO.gts>
 
@@ -6,8 +9,14 @@ namespace SampleFile {
 	
 	export SampleType =
 		type {
-			public new =
+			public SampleVariable
+			public ToString() =
 				func ( ) {
+					SampleVariable
+				}
+			public new =
+				func ( SampleVariable ) {
+					this.SampleVariable = SampleVariable
 				}
 		}
 	
@@ -18,7 +27,7 @@ namespace SampleFile {
 		}
 }
 
-Comments:
+Kommentare:
 Ich bin der Meinung wir brauchen ein Keyword wie type, class oder struct. Eine Raute wäre schlicht und ergreifend zu unleserlich.
 Ich persönlich fände type am Sinnvollsten, da es ja keine "Klasse" oder "Struktur" ist. Wir brauchen doch kein zweites Brainfuck erstellen?
 
@@ -52,3 +61,58 @@ Allerdings könnte das zu großer Ressourcenverschwendung führen...
 
 Wenn Modul2 eine e-Variable besitzt, deren Name einer e-Variable aus Modul1 entspricht, dann wird die entsprechende
 e-Variable nicht in Modul2 übernommen, sie muss dann mit ihrem Namespace aufgerufen werden.
+
+[Syntax-Adding]
+
+Hast Du schon Ideen für ein Design des Syntax-Addings?
+Lass doch gleich unsere neugewonnene Objektorientierung dafür missbrauchen:
+
+namespace SyntaxAddingSample {
+	
+	export Parsers = [
+		new Parser ( XXX ),
+		new Parser ( XXX ),
+		new Parser ( XXX )
+		]
+	export Parser =
+		type {
+			public new =
+				func ( Keywords ) { //Keywords muss Keyword-Objekte oder KeywordStructure-Objekte enthalten.
+					this.Keywords = new Keywords
+				}
+
+			public Keywords =
+				func ( Context ) { //Context wäre einfach nur der Plain-Sourcecode
+					for kw in this.Keywords //Mhh, fällt mir gerade ein, machst Du bei der internen Foreach eine Kopie der
+											//Variablen oder nur eine Art Referenz?
+						kw.Context = this.Context
+					return this.Keywords //Damit nur die Keywords ausgegeben werden und nicht die gesamte Expression.
+				}
+		}
+	export Keyword =
+		type {
+			public new =
+				func ( Word, UseBrackets, Action ) {
+					this.Word = Word
+					this.UseBrackets = UseBrackets
+					this.Action = Action //Ein "Delegate", der ausgeführt wird, wenn eine Expression das Keyword ist.
+				}
+			public Word
+			public UseBrackets
+			public Action
+			public Context
+		}
+	export KeywordStructure = 
+		type {
+			public new =
+				func ( Words, UseBrackts, Action ) {
+					this.Words = Words
+					this.UseBrackets
+					this.Action
+				}
+			public Words
+			public UseBrackets
+			public Action
+			public Context
+		}
+}
