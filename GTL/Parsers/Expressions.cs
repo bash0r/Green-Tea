@@ -100,6 +100,7 @@ namespace GreenTea
             AddExpression(3, Conditional);
             AddExpression(4, FunctionExp);
             AddExpression(5, Lazy);
+            AddExpression(6, ScopeCreation);
 
             //AddOperator(-1, "^", (l, r) => new DynamicOperator(l, r, (a, b) => Math.Pow(a, b)));
 

@@ -68,6 +68,7 @@
     <Compile Include="Parsers\Names.cs" />
     <Compile Include="Expressions\Operator.cs" />
     <Compile Include="Parsers\Parsers.cs" />
+    <Compile Include="Parsers\Scopes.cs" />
     <Compile Include="Parsers\Selects.cs" />
     <Compile Include="Parsers\Variables.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

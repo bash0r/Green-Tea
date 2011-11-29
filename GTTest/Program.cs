@@ -9,7 +9,8 @@ namespace GTTest
         static void Main(string[] args)
         {
             var v = Parser.ParseString(@"{
-    [0, 1, 2, 3, 4, 5]
+    var X = scope { private foo = 5 }
+    var Y = scope { private foo = 3 } has X
 }");
 
             Console.WriteLine(v);

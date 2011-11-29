@@ -10,7 +10,7 @@ namespace GreenTea
         From =
             from w1 in Parse.String("from")
             from s1 in Parse.WhiteSpace.AtLeastOnce()
-            from name in ParserMisc.Identifier
+            from name in ParserPre.Identifier
             from s2 in Parse.WhiteSpace.AtLeastOnce()
             from w2 in Parse.String("in")
             from s3 in Parse.WhiteSpace.AtLeastOnce()

@@ -3,7 +3,7 @@ using Sprache;
 
 namespace GreenTea
 {
-    internal static partial class ParserMisc
+    internal static partial class ParserPre
     {
         private static Parser<char>
 
@@ -25,7 +25,7 @@ namespace GreenTea
 
         private static readonly string[] Reserved =
         {
-            "func", "var", "export", "static", "if", "else", "case", "of", "from", "where", "select", "in", "namespace", "include", "void", "true", "false"
+            "func", "var", "export", "static", "if", "else", "case", "of", "from", "where", "select", "in", "namespace", "include", "void", "true", "false", "scope", "has"
         };
     }
 }
