@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
+using System.Linq;
 using System.Text;
 
 namespace GreenTea
@@ -9,7 +10,7 @@ namespace GreenTea
         private Dictionary<string, Value> Public { get; set; }
         private Dictionary<string, Value> Private { get; set; }
         private Dictionary<string, Value> Local { get; set; }
-        public Scope Parent { get; private set; }
+        public List<Scope> Parents { get; private set; }
 
         public override GTType Type
         {
@@ -21,9 +22,9 @@ namespace GreenTea
             get { return Public != null && Private != null; }
         }
 
-        public Scope(Scope parent, bool HasStatic = false)
+        public Scope(IEnumerable<Scope> parents, bool HasStatic = false)
         {
-            this.Parent = parent;
+            this.Parents = new List<Scope>(parents);
             this.Local = new Dictionary<string, Value>();
 
             if (HasStatic)
@@ -33,16 +34,22 @@ namespace GreenTea
             }
         }
 
-        public Scope() : this(null) { }
+        public Scope(Scope parent, bool HasStatic = false) : this(new Scope[] { parent }, HasStatic) { }
+
+        public Scope(bool HasStatic = false) : this(new Scope[] { }, HasStatic) { }
 
         public Scope Close()
         {
-            // create a new child closure
-            Scope s = new Scope(Parent == null ? null : Parent.Close());
+            // create a new child scope
+            Scope s = new Scope(from p in Parents
+                                select p.Close());
 
             // Duplicate all variables
             foreach (var v in Local)
                 s.Add(v.Key, v.Value);
+
+            // Apend self for static referencing
+            s.Parents.Add(this);
 
             return s;
         }
@@ -60,10 +67,21 @@ namespace GreenTea
                     if (HasStatic)
                         (mode == ScopeMode.Public ? Public : Private).Add(name, val);
                     else
-                        if (Parent != null)
-                            Parent.Add(name, val, mode);
-                        else
-                            throw new InvalidOperationException("Cannot add a static variable to an orphan scope");
+                    {
+                        foreach (var p in Parents)
+                            try
+                            {
+                                p.Add(name, val, mode);
+                                return;
+                            }
+                            catch (InvalidOperationException)
+                            {
+                                continue;
+                            }
+
+                        // End of list reached
+                        throw new InvalidOperationException("Cannot add a static variable to an orphan scope");
+                    }
                     break;
             }
         }
@@ -104,8 +122,9 @@ namespace GreenTea
             }
 
             // otherwise recurse upwards
-            if (Parent != null)
-                return Parent.TryFind(name, out ret, newval);
+            foreach (var p in Parents)
+                if (p.TryFind(name, out ret, newval))
+                    return true;
 
             ret = GTVoid.Void;
             return false;
@@ -143,8 +162,8 @@ namespace GreenTea
 
             sb.Append("}");
 
-            if (Parent != null)
-                sb.AppendFormat(" has {0}", Parent);
+            if (Parents.Count > 0)
+                sb.AppendFormat(" has {0} parents", Parents.Count);
 
             return sb.ToString();
         }

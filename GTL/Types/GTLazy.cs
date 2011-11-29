@@ -74,6 +74,11 @@ namespace GreenTea
             get { return Val.Type; }
         }
 
+        internal override Value Self()
+        {
+            return Val;
+        }
+
         public override string ToString()
         {
             return '&' + Val.ToString();

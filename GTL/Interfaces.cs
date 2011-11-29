@@ -65,5 +65,10 @@ namespace GreenTea
         {
             return this;
         }
+
+        internal virtual Value Self()
+        {
+            return this;
+        }
     }
 }

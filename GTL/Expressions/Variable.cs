@@ -1,4 +1,6 @@
-﻿
+﻿using System;
+using System.Linq;
+
 namespace GreenTea
 {
     public class Declaration : IExpression
@@ -52,16 +54,33 @@ namespace GreenTea
 
     public class Usage : IExpression
     {
+        public IExpression Scope { get; protected set; }
         public string Name { get; protected set; }
 
-        public Usage(string name)
+        public Usage(string name, IExpression scope)
         {
             this.Name = name;
+            this.Scope = scope;
         }
+
+        public Usage(string name) : this(name, null) { }
 
         public Value Evaluate(Scope scope)
         {
-            return scope.Find(Name);
+            if (Scope == null)
+                return scope.Find(Name);
+            else
+            {
+                Value v = Scope.Evaluate(scope).Self();
+
+                if (v.Type == GTType.List)
+                    return new GTTree(from s in v.Enumerate()
+                                      select new Usage(Name, s).Evaluate(scope));
+                else if (v.Type == GTType.Scope)
+                    return ((Scope)v).Find(Name);
+                else
+                    throw new InvalidOperationException("Cannot dereference from non-scope value: " + v.ToString());
+            }
         }
 
         public override string ToString()

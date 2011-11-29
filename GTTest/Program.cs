@@ -9,7 +9,18 @@ namespace GTTest
         static void Main(string[] args)
         {
             var v = Parser.ParseString(@"{
-    scope (foo = 3) has (scope (private foo))
+    var Point = func(x,y) scope {
+        public X = x
+        public Y = y
+
+        public Sum = X+Y
+    }
+
+    var A = Point(3, 5)
+    var B = Point(8, 7)
+
+    var List = [A, B]
+    List.Sum
 }");
 
             Console.WriteLine(v);
