@@ -1,0 +1,59 @@
+include <IO.gts> //Bindet die Skriptdatei IO ein
+
+namespace Polymorphie {
+
+	using IO //Bindet den Namespace IO ein
+		
+	export Base = //erstellt eine default-Variable vom folgenden anonymen Typen
+		scope { //scope könnte eventuell Probleme beim Verständnis geben, ich denke type ist das Sinnvollste
+			public Name = "NoName" //öffentliche Membervariable
+
+			virtual ToString = 	//öffentlicher, virtueller Member
+						//virtual kann bei Vererbung überschrieben werden
+				func ( )
+					ret Name
+		}
+
+	export Object =
+		scope {
+			public new = //kann nicht per Instanz.new aufgerufen werden
+				func ( Name )
+					this.Name = Name
+				     //Return-Value ist immer die neue Instanz
+			public GetCount =
+				func ( )
+					ret this.Name.Length	
+			override ToString =
+				func ( )
+					ret "Name: " + Name
+		} : Base //Wenn mehrere Vererbungen: Base1, Base2
+			 //von Rechts nach Links, letzte Vererbung stellt den default-Value,
+			 //wenn (als Bsp) Base1 und Base2 jeweils eine Variable namens Name hinzufügt.
+			 //Im obigen Beispiel würde Base1 den default-Value stellen
+
+	//theoretisch wäre folgendes möglich
+	export anonym =
+		scope {
+		} : 	scope { // dieser Typ wird als erstes initialisiert
+			}
+	//für eine anonyme Vererbung (Subtyp soll nicht verwendet werden können)
+	//oder auch folgendes:
+	export Object2 =
+		scope {
+		} : var Base2 = //einfach nur, weil's Spaß macht
+			scope {
+			}
+
+	export Main = [
+			func ( ) {
+				var base = new Base ( )
+				Print ( base.ToString ( ) )
+			},
+			func ( args ) {
+				var objs = from arg in args select new Object ( arg )
+				Print ( objs.ToString ( ) )
+			}
+		]
+}
+
+//Sagmal, brauchen wir Generik?
