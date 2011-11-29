@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 
 namespace GreenTea
 {
@@ -14,13 +15,21 @@ namespace GreenTea
             get { return GTType.Scope; }
         }
 
-        public Scope(Scope parent)
+        public bool HasStatic
+        {
+            get { return Public != null && Private != null; }
+        }
+
+        public Scope(Scope parent, bool HasStatic = false)
         {
             this.Parent = parent;
-
-            this.Public = new Dictionary<string, Value>();
-            this.Private = new Dictionary<string, Value>();
             this.Local = new Dictionary<string, Value>();
+
+            if (HasStatic)
+            {
+                this.Public = new Dictionary<string, Value>();
+                this.Private = new Dictionary<string, Value>();
+            }
         }
 
         public Scope() : this(null) { }
@@ -34,18 +43,28 @@ namespace GreenTea
             foreach (var v in Local)
                 s.Add(v.Key, v.Value);
 
-            // Set a reference to the same static scopes
-            s.Public = this.Public;
-            s.Private = this.Private;
-
             return s;
         }
 
         public void Add(string name, Value val, ScopeMode mode = ScopeMode.Local)
         {
-            (mode == ScopeMode.Local ? Local :
-                mode == ScopeMode.Public ? Public :
-                    Private).Add(name, val);
+            switch (mode)
+            {
+                case ScopeMode.Local:
+                    Local.Add(name, val);
+                    break;
+
+                case ScopeMode.Public:
+                case ScopeMode.Private:
+                    if (HasStatic)
+                        (mode == ScopeMode.Public ? Public : Private).Add(name, val);
+                    else
+                        if (Parent != null)
+                            Parent.Add(name, val, mode);
+                        else
+                            throw new InvalidOperationException("Cannot add a static variable to an orphan scope");
+                    break;
+            }
         }
 
         public bool TryFind(string name, out Value ret, Value newval = null)
@@ -60,24 +79,27 @@ namespace GreenTea
                 return true;
             }
 
-            // check for private copy
-            if (Private.ContainsKey(name))
+            if (HasStatic)
             {
-                if (newval != null)
-                    Private[name] = newval;
+                // check for private copy
+                if (Private.ContainsKey(name))
+                {
+                    if (newval != null)
+                        Private[name] = newval;
 
-                ret = Private[name];
-                return true;
-            }
+                    ret = Private[name];
+                    return true;
+                }
 
-            // check for public copy
-            if (Public.ContainsKey(name))
-            {
-                if (newval != null)
-                    Public[name] = newval;
+                // check for public copy
+                if (Public.ContainsKey(name))
+                {
+                    if (newval != null)
+                        Public[name] = newval;
 
-                ret = Public[name];
-                return true;
+                    ret = Public[name];
+                    return true;
+                }
             }
 
             // otherwise recurse upwards

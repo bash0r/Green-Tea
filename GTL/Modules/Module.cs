@@ -11,7 +11,7 @@ namespace GreenTea
 
         public Module(string name, IEnumerable<string> incs, IExpression main)
         {
-            this.Root = new Scope(null);
+            this.Root = new Scope(null, true);
 
             this.Name = name;
             this.Includes = incs;
