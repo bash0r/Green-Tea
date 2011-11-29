@@ -56,10 +56,7 @@ namespace GreenTea
 
             foreach (var res in v.Enumerate())
             {
-                var r = res;
-
-                if (r is GTLazy)
-                    r = ((GTLazy)res).Val;
+                var r = res.Self();
 
                 if (r.Type != GTType.Function)
                     if (c == 1)

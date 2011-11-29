@@ -11,8 +11,7 @@ namespace GreenTea
 
         public static bool IsTrue(this Value v)
         {
-            if (v is GTLazy)
-                v = ((GTLazy)v).Val;
+            v = v.Self();
 
             if (v.Type == GTType.Bool)
                 if (((GTBool)v).Value)
@@ -27,8 +26,7 @@ namespace GreenTea
 
         internal static dynamic AsNumber(this Value v)
         {
-            if (v is GTLazy)
-                v = ((GTLazy)v).Val;
+            v = v.Self();
 
             switch (v.Type)
             {
@@ -48,11 +46,8 @@ namespace GreenTea
 
         internal static int CompareTo(this Value a, Value b)
         {
-            if (a is GTLazy)
-                a = ((GTLazy)a).Val;
-
-            if (b is GTLazy)
-                b = ((GTLazy)b).Val;
+            a = a.Self();
+            b = b.Self();
 
             if (a.IsNumber() && b.IsNumber())
                 return a.AsNumber().CompareTo(b.AsNumber());
