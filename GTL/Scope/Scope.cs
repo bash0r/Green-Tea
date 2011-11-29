@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
+using System.Text;
 
 namespace GreenTea
 {
@@ -118,6 +119,34 @@ namespace GreenTea
                 throw new KeyNotFoundException("Unknown variable: " + name);
 
             return ret;
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+
+            sb.AppendLine("scope {");
+
+            if (HasStatic)
+            {
+                foreach (var p in Public)
+                    sb.AppendFormat("public {0} = {1}\n", p.Key, p.Value);
+                sb.AppendLine();
+
+                foreach (var p in Private)
+                    sb.AppendFormat("private {0} = {1}\n", p.Key, p.Value);
+                sb.AppendLine();
+            }
+
+            foreach (var l in Local)
+                sb.AppendFormat("var {0} = {1}\n", l.Key, l.Value);
+
+            sb.Append("}");
+
+            if (Parent != null)
+                sb.AppendFormat(" has {0}", Parent);
+
+            return sb.ToString();
         }
     }
 

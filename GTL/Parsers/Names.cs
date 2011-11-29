@@ -25,7 +25,7 @@ namespace GreenTea
 
         private static readonly string[] Reserved =
         {
-            "func", "var", "export", "static", "if", "else", "case", "of", "from", "where", "select", "in", "namespace", "include", "void", "true", "false", "scope", "has"
+            "func", "var", "public", "private", "if", "else", "case", "of", "from", "where", "select", "in", "namespace", "include", "void", "true", "false", "scope", "has"
         };
     }
 }
