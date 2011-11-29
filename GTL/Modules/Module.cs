@@ -7,14 +7,11 @@ namespace GreenTea
         public IEnumerable<string> Includes { get; private set; }
 
         public Scope Root { get; private set; }
-        public Scope Static { get; private set; }
-
         public IExpression Main { get; private set; }
 
         public Module(string name, IEnumerable<string> incs, IExpression main)
         {
-            this.Root = new Scope(null, this);
-            this.Static = new Scope(null, this);
+            this.Root = new Scope(null);
 
             this.Name = name;
             this.Includes = incs;

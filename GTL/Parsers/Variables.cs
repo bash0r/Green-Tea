@@ -23,19 +23,19 @@ namespace GreenTea
             from body in SetOpt
             select new Declaration(id, body, ScopeMode.Local),
 
-        VariableExport =
-            from word in Parse.String("export")
+        VariablePublic =
+            from word in Parse.String("public")
             from s1 in Parse.WhiteSpace.AtLeastOnce()
             from id in ParserMisc.Identifier
             from body in SetOpt
-            select new Declaration(id, body, ScopeMode.Export),
+            select new Declaration(id, body, ScopeMode.Public),
 
-        VariableStatic =
-            from word in Parse.String("static")
+        VariablePrivate =
+            from word in Parse.String("private")
             from s1 in Parse.WhiteSpace.AtLeastOnce()
             from id in ParserMisc.Identifier
             from body in SetOpt
-            select new Declaration(id, body, ScopeMode.Static),
+            select new Declaration(id, body, ScopeMode.Private),
 
         VariableSet =
             from id in ParserMisc.Identifier
@@ -46,6 +46,6 @@ namespace GreenTea
             from id in ParserMisc.Identifier
             select new Usage(id),
 
-        VariableExp = VariableInit.Or(VariableExport).Or(VariableStatic).Or(VariableSet).Or(VariableUsage);
+        VariableExp = VariableInit.Or(VariablePublic).Or(VariablePrivate).Or(VariableSet).Or(VariableUsage);
     }
 }

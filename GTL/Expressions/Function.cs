@@ -77,7 +77,7 @@ namespace GreenTea
                         continue;
 
                 // Create evaluation context
-                Scope s = new Scope(f.Container, scope.Namespace);
+                Scope s = new Scope(f.Container);
 
                 // Add this() for recursion
                 s.Add("this", f);

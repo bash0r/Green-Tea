@@ -2,75 +2,87 @@
 
 namespace GreenTea
 {
-    public sealed class Scope
+    public sealed class Scope : Value
     {
-        private Dictionary<string, Value> Variables { get; set; }
+        private Dictionary<string, Value> Public { get; set; }
+        private Dictionary<string, Value> Private { get; set; }
+        private Dictionary<string, Value> Local { get; set; }
         public Scope Parent { get; private set; }
-        public Module Namespace { get; private set; }
 
-        public Scope(Scope parent, Module mod)
+        public override GTType Type
         {
-            this.Parent = parent;
-            this.Namespace = mod;
-
-            this.Variables = new Dictionary<string, Value>();
+            get { return GTType.Scope; }
         }
 
-        public Scope(Scope parent) : this(parent, parent == null ? null : parent.Namespace) { }
-        public Scope() : this(null, null) { }
+        public Scope(Scope parent)
+        {
+            this.Parent = parent;
+
+            this.Public = new Dictionary<string, Value>();
+            this.Private = new Dictionary<string, Value>();
+            this.Local = new Dictionary<string, Value>();
+        }
+
+        public Scope() : this(null) { }
 
         public Scope Close()
         {
             // create a new child closure
-            Scope s = new Scope(null, Namespace);
+            Scope s = new Scope(Parent == null ? null : Parent.Close());
 
             // Duplicate all variables
-            foreach (var v in Variables)
+            foreach (var v in Local)
                 s.Add(v.Key, v.Value);
 
-            if (Parent != null)
-                s.Parent = Parent.Close(); // recurse upwards
+            // Set a reference to the same static scopes
+            s.Public = this.Public;
+            s.Private = this.Private;
 
             return s;
         }
 
         public void Add(string name, Value val, ScopeMode mode = ScopeMode.Local)
         {
-            switch (mode)
-            {
-                case ScopeMode.Local:
-                    Variables.Add(name, val);
-                    break;
-
-                case ScopeMode.Export:
-                    Namespace.Root.Add(name, val);
-                    break;
-
-                case ScopeMode.Static:
-                    Namespace.Static.Add(name, val);
-                    break;
-            }
+            (mode == ScopeMode.Local ? Local :
+                mode == ScopeMode.Public ? Public :
+                    Private).Add(name, val);
         }
 
         public bool TryFind(string name, out Value ret, Value newval = null)
         {
             // check for local copy
-            if (Variables.ContainsKey(name))
+            if (Local.ContainsKey(name))
             {
                 if (newval != null)
-                    Variables[name] = newval;
+                    Local[name] = newval;
 
-                ret = Variables[name];
+                ret = Local[name];
+                return true;
+            }
+
+            // check for private copy
+            if (Private.ContainsKey(name))
+            {
+                if (newval != null)
+                    Private[name] = newval;
+
+                ret = Private[name];
+                return true;
+            }
+
+            // check for public copy
+            if (Public.ContainsKey(name))
+            {
+                if (newval != null)
+                    Public[name] = newval;
+
+                ret = Public[name];
                 return true;
             }
 
             // otherwise recurse upwards
             if (Parent != null)
                 return Parent.TryFind(name, out ret, newval);
-
-            // reached root, try static
-            if (Namespace != null)
-                return Namespace.Static.TryFind(name, out ret, newval);
 
             ret = GTVoid.Void;
             return false;
@@ -89,6 +101,6 @@ namespace GreenTea
 
     public enum ScopeMode
     {
-        Local, Export, Static
+        Local, Public, Private
     }
 }
