@@ -13,7 +13,7 @@ namespace GTTest
         public X = x
         public Y = y
 
-        public Sum = X+Y
+        public Sum = add(X, Y)
 
         public SetX = func(x) Point(x, Y)
     }

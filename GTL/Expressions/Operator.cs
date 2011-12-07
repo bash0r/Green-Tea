@@ -26,9 +26,9 @@ namespace GreenTea
             Value l = Left.Evaluate(scope);
             Value r = Right.Evaluate(scope);
 
-            if (l.IsNumber() && r.IsNumber())
+            if (l is IGTAdapter && r is IGTAdapter)
             {
-                dynamic res = Fun.Invoke(l.AsNumber(), r.AsNumber());
+                dynamic res = Fun.Invoke(((IGTAdapter)l).Get(), ((IGTAdapter)r).Get());
 
                 if (l.Type == GTType.Float || r.Type == GTType.Float)
                     return new GTFloat(res);

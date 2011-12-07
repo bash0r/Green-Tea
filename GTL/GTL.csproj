@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Constants.cs" />
     <Compile Include="Expressions\Scope.cs" />
+    <Compile Include="Functions\Arithmetic.cs" />
     <Compile Include="Functions\Wrapper.cs" />
     <Compile Include="Operators\Arithmetic.cs" />
     <Compile Include="Operators\Compare.cs" />

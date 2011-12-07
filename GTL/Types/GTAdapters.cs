@@ -3,7 +3,12 @@ using System.Collections.Generic;
 
 namespace GreenTea
 {
-    public abstract class GTAdapter<T> : Value
+    internal interface IGTAdapter
+    {
+        dynamic Get();
+    }
+
+    public abstract class GTAdapter<T> : Value, IGTAdapter
     {
         public T Value { get; set; }
 
@@ -15,6 +20,11 @@ namespace GreenTea
         public override string ToString()
         {
             return Value.ToString();
+        }
+
+        public dynamic Get()
+        {
+            return Value;
         }
     }
 

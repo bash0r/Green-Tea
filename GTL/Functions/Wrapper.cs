@@ -39,7 +39,7 @@ namespace GreenTea
                 else
                     s = m.Name;
 
-                Funcs.Add(s, new WrapperFunc(typeof(Functions).GetMethod("stringify")));
+                Funcs.Add(s, new WrapperFunc(m));
             }
         }
 
