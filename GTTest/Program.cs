@@ -27,7 +27,7 @@ namespace GTTest
 
     var ListTwo = :List.SetX(1)
 
-    ListTwo.Sum
+    string(ListTwo.Sum)
 }");
 
             Console.WriteLine(v);

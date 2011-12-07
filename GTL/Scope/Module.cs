@@ -16,6 +16,7 @@ namespace GreenTea
             this.Name = name;
             this.Includes = incs;
             this.Main = main;
+            Functions.AddTo(Root);
         }
     }
 }

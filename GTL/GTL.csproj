@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Constants.cs" />
     <Compile Include="Expressions\Scope.cs" />
+    <Compile Include="Functions\Wrapper.cs" />
     <Compile Include="Operators\Arithmetic.cs" />
     <Compile Include="Operators\Compare.cs" />
     <Compile Include="Expressions\Conditional.cs" />
@@ -56,7 +57,7 @@
     <Compile Include="Expressions\Variable.cs" />
     <Compile Include="Expressions\Block.cs" />
     <Compile Include="Interfaces.cs" />
-    <Compile Include="Modules\Module.cs" />
+    <Compile Include="Scope\Module.cs" />
     <Compile Include="Operators\Logic.cs" />
     <Compile Include="Parsers\Blocks.cs" />
     <Compile Include="Parsers\Conditionals.cs" />

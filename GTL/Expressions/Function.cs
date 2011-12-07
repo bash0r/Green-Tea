@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace GreenTea
 {
@@ -85,7 +86,19 @@ namespace GreenTea
                 // All parameters filled
                 if (Parameters.Count == f.Parameters.Count)
                 {
-                    ret = ret.Add(f.Body.Evaluate(s));
+                    Value o;
+
+                    if (f.Body == null)
+                    {
+                        // Invoke the method
+                        var w = (WrapperFunc)f;
+                        o = (Value)w.Method.Invoke(null, (from par in w.Parameters
+                                                          select new Usage(par).Evaluate(s)).ToArray());
+                    }
+                    else
+                        o = f.Body.Evaluate(s);
+
+                    ret = ret.Add(o);
                     continue;
                 }
 
