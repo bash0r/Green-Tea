@@ -42,16 +42,6 @@ namespace GreenTea
             from body in Set
             select new Assignment(id, body),
 
-        VariableUsage =
-            from id in ParserPre.Identifier
-            select new Usage(id),
-
-        ScopedUsage =
-            from scope in ParserPre.Identifier
-            from dot in Parse.Char('.')
-            from id in ParserPre.Identifier
-            select new Usage(id, new Usage(scope)),
-
-        VariableExp = VariableInit.Or(VariablePublic).Or(VariablePrivate).Or(VariableSet).Or(ScopedUsage).Or(VariableUsage);
+        VariableExp = VariableInit.Or(VariablePublic).Or(VariablePrivate).Or(VariableSet).Or(ParserPre.ScopedUsage).Or(ParserPre.VariableUsage);
     }
 }

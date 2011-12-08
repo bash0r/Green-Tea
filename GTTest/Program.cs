@@ -13,10 +13,10 @@ namespace GTTest
         public X = x
         public Y = y
 
-        public Sum = (X + Y)
+        public Sum = (X + Y + Z)
 
         public SetX = func(x) Point(x, Y)
-    }
+    } has scope { private Z=3 }
 
     var A = Point(3, 5)
     var B = Point(8, 7)
@@ -25,7 +25,7 @@ namespace GTTest
     
     List.Sum
 
-    var ListTwo = :List.SetX(1)
+    var ListTwo = List.SetX(1)
 
     string(ListTwo.Sum)
 }");

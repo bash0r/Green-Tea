@@ -23,6 +23,18 @@ namespace GreenTea
             where !Reserved.Contains(name)
             select name;
 
+        internal static Parser<IExpression>
+
+        VariableUsage =
+            from id in ParserPre.Identifier
+            select new Usage(id),
+
+        ScopedUsage =
+            from scope in ParserPre.Identifier
+            from dot in Parse.Char('.')
+            from id in ParserPre.Identifier
+            select new Usage(id, new Usage(scope));
+
         private static readonly string[] Reserved =
         {
             "func", "var", "public", "private", "if", "else", "case", "of", "from", "where", "select", "in", "namespace", "include", "void", "true", "false", "scope", "has"
