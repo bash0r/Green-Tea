@@ -28,7 +28,7 @@ namespace GreenTea
                 (from word in Parse.Char(':')
                  from s1 in Parse.WhiteSpace.Many()
                  from ex in Expression
-                 select ex).Or(ParserPre.ScopedUsage).Or(ParserPre.VariableUsage)
+                 select ex).Or(ParserPre.Variable)
             from s2 in Parse.WhiteSpace.Many()
             from open in Parse.Char('(')
             from args in ByVals.Or(Parse.Return(new List<IExpression>()))

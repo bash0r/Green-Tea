@@ -42,6 +42,6 @@ namespace GreenTea
             from body in Set
             select new Assignment(id, body),
 
-        VariableExp = VariableInit.Or(VariablePublic).Or(VariablePrivate).Or(VariableSet).Or(ParserPre.ScopedUsage).Or(ParserPre.VariableUsage);
+        VariableExp = VariableInit.Or(VariablePublic).Or(VariablePrivate).Or(VariableSet).Or(ParserPre.Variable);
     }
 }

@@ -23,7 +23,7 @@ namespace GreenTea
             where !Reserved.Contains(name)
             select name;
 
-        internal static Parser<IExpression>
+        private static Parser<IExpression>
 
         VariableUsage =
             from id in ParserPre.Identifier
@@ -34,6 +34,11 @@ namespace GreenTea
             from dot in Parse.Char('.')
             from id in ParserPre.Identifier
             select new Usage(id, new Usage(scope));
+
+        internal static Parser<IExpression>
+
+        Variable =
+            ScopedUsage.Or(VariableUsage);
 
         private static readonly string[] Reserved =
         {
