@@ -31,7 +31,7 @@ namespace GreenTea
             from exp in Expression
             from s2 in Parse.WhiteSpace.Many()
             from close in Parse.Char(')')
-            select exp,
+            select exp.Named("({0})"),
 
         Block = EmptyBlock.Or(FilledBlock).Or(SingleBlock);
     }

@@ -28,7 +28,7 @@ namespace GreenTea
         SelectBody =
             from word in Parse.String("select")
             from s in Parse.WhiteSpace.AtLeastOnce()
-            from expr in Expression
+            from expr in SimpleExpression
             select new SelectBody(expr);
 
 

@@ -13,7 +13,7 @@ namespace GreenTea
         ScopeCreation =
             from word in Parse.String("scope")
             from s1 in Parse.WhiteSpace.AtLeastOnce()
-            from expr in Expression
+            from expr in SimpleExpression
             from par in ScopeParent.Or(Parse.Return<IExpression>(null))
             select new ScopeCreation(expr, par),
 
@@ -21,7 +21,7 @@ namespace GreenTea
             from s1 in Parse.WhiteSpace.AtLeastOnce()
             from word in Parse.String("has")
             from s2 in Parse.WhiteSpace.AtLeastOnce()
-            from expr in Expression
+            from expr in SimpleExpression
             select expr;
     }
 }

@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="Expressions\Named.cs" />
     <Compile Include="Expressions\Scope.cs" />
     <Compile Include="Functions\Arithmetic.cs" />
     <Compile Include="Functions\Wrapper.cs" />

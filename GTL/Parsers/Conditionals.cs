@@ -17,7 +17,7 @@ namespace GreenTea
             from s1 in Parse.WhiteSpace.AtLeastOnce()
             from word in Parse.String("else")
             from s2 in Parse.WhiteSpace.AtLeastOnce()
-            from ex in Expression
+            from ex in SimpleExpression
             select ex,
 
         CaseOf =
@@ -34,9 +34,9 @@ namespace GreenTea
 
         Body =
             from s1 in Parse.WhiteSpace.AtLeastOnce()
-            from e1 in Expression
+            from e1 in SimpleExpression
             from s2 in Parse.WhiteSpace.AtLeastOnce()
-            from e2 in Expression
+            from e2 in SimpleExpression
             select new Tuple<IExpression, IExpression>(e1, e2),
 
         Of =

@@ -14,7 +14,7 @@ namespace GreenTea
                 ArgsParser.Or(
                     from sp in Parse.WhiteSpace.AtLeastOnce()
                     select new List<string>())
-            from body in Expression
+            from body in SimpleExpression
             select new FunctionCreation(body, args),
 
         ByVal =

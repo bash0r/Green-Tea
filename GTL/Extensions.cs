@@ -2,6 +2,14 @@
 
 namespace GreenTea
 {
+    internal static class ExprExt
+    {
+        public static IExpression Named(this IExpression expr, string format)
+        {
+            return new NamedExpression(expr, format);
+        }
+    }
+
     internal static class ValueExt
     {
         internal static bool IsNumber(this Value v)

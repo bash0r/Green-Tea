@@ -10,7 +10,7 @@ namespace GreenTea
             from s1 in Parse.WhiteSpace.Many()
             from eq in Parse.Char('=')
             from s2 in Parse.WhiteSpace.Many()
-            from exp in Expression
+            from exp in SimpleExpression
             select exp,
 
         SetOpt =

@@ -131,7 +131,7 @@ namespace GreenTea
             if (args.Length > 0)
                 args.Remove(0, 2);
 
-            return String.Format(":{0}({1})", Function, args);
+            return String.Format("{0}{1}({2})", Function is Usage ? "" : ":", Function, args);
         }
     }
 }
