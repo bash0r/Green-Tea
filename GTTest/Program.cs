@@ -8,7 +8,9 @@ namespace GTTest
     {
         static void Main(string[] args)
         {
-            var v = Parser.ParseString(@"{
+            try
+            {
+                var v = Parser.ParseString(@"{
         private Point = func(x,y) scope {
         public X = x
         public Y = y
@@ -30,21 +32,27 @@ namespace GTTest
     string(ListTwo.Sum)
 }");
 
-            Console.WriteLine(v);
-            Console.WriteLine();
+                Console.WriteLine(v);
+                Console.WriteLine();
 
-            Module m = new Module("test", new List<string>(), v);
-            var res = v.Evaluate(m.Root);
-            Console.WriteLine(res);
+                Module m = new Module("test", new List<string>(), v);
+                var res = v.Evaluate(m.Root);
+                Console.WriteLine(res);
 
-            // try self compiling
-            try
-            {
-                Parser.ParseString(v.ToString());
+                // try self compiling
+                try
+                {
+                    Parser.ParseString(v.ToString());
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Failed self-evaluation:\n{0}", e);
+                }
+
             }
             catch (Exception e)
             {
-                Console.WriteLine("Failed self-evaluation:\n{0}", e);
+                Console.WriteLine("Failed evaluation:\n{0}", e);
             }
 
             Console.ReadKey(true);
