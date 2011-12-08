@@ -11,14 +11,10 @@ namespace GTTest
             try
             {
                 var v = Parser.ParseString(@"{
-    print(""Hello, world!"")
-    print(""What is your name"")
-    var n = readln()
+    var A = [1, 2, 3]
+    var B = [4, 5, 6]
 
-    if (n == ""nand"")
-        print(""cool!"")
-    else
-        print(""uncool!"")
+    (A+B)
 }");
 
                 Console.WriteLine(v);

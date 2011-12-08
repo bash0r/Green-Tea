@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace GreenTea
 {
@@ -21,10 +23,30 @@ namespace GreenTea
         protected abstract Func<dynamic, dynamic, dynamic> Fun { get; }
         protected OpAdapter(IExpression left, IExpression right) : base(left, right) { }
 
-        public override Value Evaluate(Scope scope)
+        public Value Evaluate(IExpression left, IExpression right, Scope scope)
         {
-            Value l = Left.Evaluate(scope);
-            Value r = Right.Evaluate(scope);
+            Value l = left.Evaluate(scope);
+            Value r = right.Evaluate(scope);
+
+            if (l.Count > 1 && l.Count == r.Count)
+            {
+                var lv = new List<Value>(l.Enumerate());
+                var rv = new List<Value>(r.Enumerate());
+                var res = new List<Value>(lv.Count);
+
+                for (int i = 0; i < lv.Count(); i++)
+                    res.Add(Evaluate(lv[i], rv[i], scope));
+
+                return new GTTree(res);
+            }
+
+            if (l.Count > 1 && r.Count == 1)
+                return new GTTree(from x in l.Enumerate()
+                                  select Evaluate(x, r, scope));
+
+            if (r.Count > 1 && l.Count == 1)
+                return new GTTree(from x in r.Enumerate()
+                                  select Evaluate(l, x, scope));
 
             if (l is IGTAdapter && r is IGTAdapter)
             {
@@ -37,6 +59,11 @@ namespace GreenTea
             }
 
             throw new InvalidOperationException(String.Format("Cannot use operator {0} on types {1} and {2}", this, l.Type, r.Type));
+        }
+
+        public override Value Evaluate(Scope scope)
+        {
+            return Evaluate(Left, Right, scope);
         }
     }
 }
