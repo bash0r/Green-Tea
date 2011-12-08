@@ -11,6 +11,9 @@ namespace GreenTea
         ExpressionCache =
             null,
 
+        SimpleExpressionCache =
+            null,
+
         Lazy =
             from lead in Parse.Char('&')
             from exp in Expression
@@ -19,6 +22,11 @@ namespace GreenTea
         private static Parser<IExpression> Expression
         {
             get { return ExpressionCache ?? RebuildExp(); }
+        }
+
+        private static Parser<IExpression> SimpleExpression
+        {
+            get { return SimpleExpressionCache ?? RebuildExp(true); }
         }
 
         private static Dictionary<int, List<Parser<IExpression>>> ExpressionList = new Dictionary<int, List<Parser<IExpression>>>();
@@ -31,6 +39,7 @@ namespace GreenTea
 
             ExpressionList[prec].Add(p);
             ExpressionCache = null;
+            SimpleExpressionCache = null;
 
             RebuildExp();
         }
@@ -42,9 +51,10 @@ namespace GreenTea
 
             OperatorList[prec].Add(new Tuple<string,Func<IExpression,IExpression,Operator>>(name, op));
             ExpressionCache = null;
+            SimpleExpressionCache = null;
         }
 
-        private static Parser<IExpression> RebuildExp()
+        private static Parser<IExpression> RebuildExp(bool simple = false)
         {
             // sort by precedence
             var precs = new List<int>(ExpressionList.Keys);
@@ -62,9 +72,16 @@ namespace GreenTea
                 if (ExpressionList.ContainsKey(k))
                     foreach (var v in ExpressionList[k])
                         if (ExpressionCache == null)
+                        {
                             ExpressionCache = v;
+                            SimpleExpressionCache = v;
+                        }
                         else
+                        {
+                            // Mirror all changes into the simple expression
                             ExpressionCache = ExpressionCache.Or(v);
+                            SimpleExpressionCache = SimpleExpressionCache.Or(v);
+                        }
 
                 // operators
                 if (OperatorList.ContainsKey(k))
@@ -74,7 +91,9 @@ namespace GreenTea
                     foreach (var op in OperatorList[k])
                     {
                         var c = op; // closure
-                        var p = from symbol in Parse.String(c.Item1).Text()
+                        var p = //from s1 in Parse.Char('_')
+                                from symbol in Parse.String(c.Item1)
+                                //from s2 in Parse.Char('_')
                                 select c.Item2;
 
                         if (cache == null)
@@ -83,7 +102,7 @@ namespace GreenTea
                             cache = cache.Or(p);
                     }
 
-                    ExpressionCache = Parse.ChainOperator(cache, ExpressionCache, (op, left, right) => op(left, right));
+                    ExpressionCache = Parse.ChainOperator(cache, ExpressionCache.Token(), (op, left, right) => op(left, right));
                 }
             }
 
@@ -111,6 +130,7 @@ namespace GreenTea
             AddOperator(-3, "+", (l, r) => new AddOperator(l, r));
             AddOperator(-3, "-", (l, r) => new SubOperator(l, r));
 
+            
             AddOperator(-10, "<=", (l, r) => new LTEOperator(l, r));
             AddOperator(-10, ">=", (l, r) => new GTEOperator(l, r));
             AddOperator(-10, "<", (l, r) => new LTOperator(l, r));
@@ -122,8 +142,8 @@ namespace GreenTea
             AddOperator(-15, "&&", (l, r) => new AndOp(l, r));
             AddOperator(-15, "||", (l, r) => new OrOp(l, r));
 
-            AddOperator(-20, "-<", (l, r) => new ListAdd(l, r));
-            AddOperator(-20, "~<", (l, r) => new ListAddRange(l, r));
+            AddOperator(-20, "~<<", (l, r) => new ListAddRange(l, r));
+            AddOperator(-20, "~<", (l, r) => new ListAdd(l, r));
         }
     }
 }

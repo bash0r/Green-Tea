@@ -9,25 +9,9 @@ namespace GTTest
         static void Main(string[] args)
         {
             var v = Parser.ParseString(@"{
-    private Point = func(x,y) scope {
-        public X = x
-        public Y = y
+    add(5 + 4 * 2, 2/7.0)
 
-        public Sum = add(X, Y)
-
-        public SetX = func(x) Point(x, Y)
-    }
-
-    var A = Point(3, 5)
-    var B = Point(8, 7)
-
-    var List = [A, B]
-    
-    List.Sum
-
-    var ListTwo = :List.SetX(1)
-
-    string(ListTwo.Sum)
+    var foo = 9 ~<< [3, 1]
 }");
 
             Console.WriteLine(v);

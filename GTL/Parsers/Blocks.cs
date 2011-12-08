@@ -16,10 +16,10 @@ namespace GreenTea
         FilledBlock =
             from open in Parse.Char('{')
             from s1 in Parse.WhiteSpace.Many()
-            from first in Expression.Once()
+            from first in SimpleExpression.Once()
             from rest in
                 (from _ in Parse.WhiteSpace.AtLeastOnce()
-                 from e in Expression
+                 from e in SimpleExpression
                  select e).Many()
             from s2 in Parse.WhiteSpace.Many()
             from close in Parse.Char('}')
