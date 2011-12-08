@@ -11,25 +11,14 @@ namespace GTTest
             try
             {
                 var v = Parser.ParseString(@"{
-        private Point = func(x,y) scope {
-        public X = x
-        public Y = y
+    print(""Hello, world!"")
+    print(""What is your name"")
+    var n = readln()
 
-        public Sum = (X + Y + Z)
-
-        public SetX = func(x) Point(x, Y)
-    } has scope { private Z=3 }
-
-    var A = Point(3, 5)
-    var B = Point(8, 7)
-
-    var List = [A, B]
-    
-    List.Sum
-
-    var ListTwo = List.SetX(1)
-
-    string(ListTwo.Sum)
+    if (n == ""nand"")
+        print(""cool!"")
+    else
+        print(""uncool!"")
 }");
 
                 Console.WriteLine(v);
