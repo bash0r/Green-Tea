@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace GreenTea
 {
@@ -18,6 +20,23 @@ namespace GreenTea
         public override GTType Type
         {
             get { return GTType.Function; }
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+
+            foreach (string s in Parameters)
+                sb.AppendFormat(", {0}", s);
+
+            if (Parameters.Count > 0)
+            {
+                sb.Remove(0, 2);
+                sb.Insert(0, '(');
+                sb.Append(')');
+            }
+
+            return String.Format("func{0} {1}", sb, Body);
         }
     }
 }
